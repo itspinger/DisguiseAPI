@@ -1,6 +1,7 @@
 package net.pinger.disguise;
 
 import net.pinger.disguise.context.PropertyContext;
+import net.pinger.disguise.server.MinecraftServer;
 import net.pinger.disguise.skull.SkullManager;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
