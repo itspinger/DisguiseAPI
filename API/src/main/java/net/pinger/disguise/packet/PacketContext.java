@@ -1,21 +1,17 @@
 package net.pinger.disguise.packet;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.pinger.disguise.DisguiseAPI;
+import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.packet.exception.ProviderNotFoundException;
 import net.pinger.disguise.server.MinecraftServer;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public final class PacketContext {
 
     private static PacketProvider<?> provider = null;
-
     private static final Set<Class<? extends PacketProvider<?>>> providers = Sets.newHashSet();
-    private static final Map<String, List<String>> packetCompatibility = Maps.newHashMap();
 
     /**
      * This method returns the provider corresponding
@@ -31,25 +27,23 @@ public final class PacketContext {
 
         for (Class<? extends PacketProvider<?>> clazz : providers) {
             try {
-                // Split the version of the packet
-                // From the class name
-                String name = clazz.getName().substring(clazz.getName().lastIndexOf("v") + 1);
-                String[] splitter = name.split("_");
-                String version = String.join(".", splitter);
+                // Get the PacketHandler annotation
+                PacketHandler handler = clazz.getAnnotation(PacketHandler.class);
+
+                // Check if the handler is null
+                if (handler == null) {
+                    return null;
+                }
 
                 // Check if the server version
                 // Is equal to the packet version
-                if (MinecraftServer.isVersion(version)) {
+                if (MinecraftServer.isVersion(handler.version())) {
                     DisguiseAPI.getLogger().info(String.format("Found the appropriate provider for version %s: %s", MinecraftServer.CURRENT.getVersion(), clazz.getName()));
                     return provider = clazz.getConstructor().newInstance();
                 }
 
-                // We also need to check for the packet compatibility
-                // For the given version
-                if (!packetCompatibility.containsKey(version))
-                    continue;
-
-                for (String serverVersion : packetCompatibility.get(version)) {
+                // Loop through compatible versions
+                for (String serverVersion : handler.compatibility()) {
                     if (MinecraftServer.isVersion(serverVersion)) {
                         // Then the current class is also compatible with the current version
                         DisguiseAPI.getLogger().info(String.format("Found the appropriate provider for version %s: %s", MinecraftServer.CURRENT.getVersion(), clazz.getName()));
