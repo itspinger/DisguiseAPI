@@ -5,7 +5,6 @@ import com.google.common.collect.Sets;
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.packet.exception.ProviderNotFoundException;
 import net.pinger.disguise.server.MinecraftServer;
-import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,7 @@ public final class PacketContext {
     private static PacketProvider<?> provider = null;
 
     private static final Set<Class<? extends PacketProvider<?>>> providers = Sets.newHashSet();
-    private static Map<String, List<String>> packetCompatibility = Maps.newHashMap();
+    private static final Map<String, List<String>> packetCompatibility = Maps.newHashMap();
 
     /**
      * This method returns the provider corresponding
@@ -41,7 +40,7 @@ public final class PacketContext {
                 // Check if the server version
                 // Is equal to the packet version
                 if (MinecraftServer.isVersion(version)) {
-                    DisguiseAPI.getLogger().info("Found the appropriate provider for version " + MinecraftServer.CURRENT + ": " + clazz.getName());
+                    DisguiseAPI.getLogger().info(String.format("Found the appropriate provider for version %s: %s", MinecraftServer.CURRENT.getVersion(), clazz.getName()));
                     return provider = clazz.getConstructor().newInstance();
                 }
 
@@ -53,12 +52,12 @@ public final class PacketContext {
                 for (String serverVersion : packetCompatibility.get(version)) {
                     if (MinecraftServer.isVersion(serverVersion)) {
                         // Then the current class is also compatible with the current version
-                        DisguiseAPI.getLogger().info("Found the appropriate provider for version " + MinecraftServer.CURRENT + ": " + clazz.getName());
+                        DisguiseAPI.getLogger().info(String.format("Found the appropriate provider for version %s: %s", MinecraftServer.CURRENT.getVersion(), clazz.getName()));
                         return provider = clazz.getConstructor().newInstance();
                     }
                 }
             } catch (Exception e) {
-                DisguiseAPI.getLogger().error("An error occurred while trying to find an applicable provider for version " + Bukkit.getVersion());
+                DisguiseAPI.getLogger().error("An error occurred while trying to find an applicable provider for version: " + MinecraftServer.CURRENT.getVersion());
                 DisguiseAPI.getLogger().error(e.getMessage());
             }
         }
