@@ -37,18 +37,23 @@
     </repositories>
 
     <dependencies>
+        <!-- Random Spigot Version -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.16.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- 1.7.10 as the lowest version -->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
             <version>1.7.10-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- JodaTime for time management -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
