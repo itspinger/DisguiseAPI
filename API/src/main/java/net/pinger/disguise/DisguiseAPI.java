@@ -73,6 +73,6 @@ public class DisguiseAPI {
      */
 
     public static Logger getLogger() {
-        return disguise.getLogger();
+        return disguise.getSimpleLogger();
     }
 }

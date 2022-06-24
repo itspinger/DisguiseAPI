@@ -20,6 +20,6 @@ public interface Disguise {
      * @return the logger
      */
 
-    Logger getLogger();
+    Logger getSimpleLogger();
 
 }
