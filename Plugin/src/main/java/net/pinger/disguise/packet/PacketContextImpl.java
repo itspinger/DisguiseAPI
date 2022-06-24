@@ -5,6 +5,7 @@ import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.server.MinecraftServer;
 
+import java.util.Arrays;
 import java.util.Set;
 
 public class PacketContextImpl implements PacketContext {
@@ -14,6 +15,12 @@ public class PacketContextImpl implements PacketContext {
 
     public PacketContextImpl() {
         // Add default providers here
+        this.registeredProviders.addAll(Arrays.asList(
+                net.pinger.disguise.packet.v1_8_8.PacketProviderImpl.class,
+                net.pinger.disguise.packet.v1_9_4.PacketProviderImpl.class,
+                net.pinger.disguise.packet.v1_10.PacketProviderImpl.class,
+                net.pinger.disguise.packet.v1_11.PacketProviderImpl.class
+        ));
     }
 
     @Override
