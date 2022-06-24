@@ -3,60 +3,104 @@ package net.pinger.disguise.packet;
 import com.google.common.collect.Sets;
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.annotation.PacketHandler;
-import net.pinger.disguise.packet.exception.ProviderNotFoundException;
 import net.pinger.disguise.server.MinecraftServer;
 
 import java.util.Set;
 
-public final class PacketContext {
+public class PacketContext {
 
-    private static PacketProvider<?> provider = null;
-    private static final Set<Class<? extends PacketProvider<?>>> providers = Sets.newHashSet();
+    private PacketProvider<?> provider;
+    private final Set<Class<? extends PacketProvider<?>>> registeredProviders = Sets.newHashSet();
+
+    public PacketContext() {
+        // Add default providers here
+    }
 
     /**
-     * This method returns the provider corresponding
-     * with the current server version.
-     *
-     * @return the packet provider
-     * @throws ProviderNotFoundException if the provider was not found
+     * This method is used to assign a value to the {@link PacketProvider} field
+     * which manages sent packets for disguised
      */
 
-    public static PacketProvider<?> getProvider() throws ProviderNotFoundException {
-        if (provider != null)
-            return provider;
-
-        for (Class<? extends PacketProvider<?>> clazz : providers) {
+    public void applyProvider() {
+        // Search for the packet provider
+        // By looping through each registered provider
+        for (Class<?> clazz : registeredProviders) {
             try {
                 // Get the PacketHandler annotation
-                PacketHandler handler = clazz.getAnnotation(PacketHandler.class);
+                // And check if versions match
+                PacketHandler packetHandler = clazz.getAnnotation(PacketHandler.class);
 
-                // Check if the handler is null
-                if (handler == null) {
-                    return null;
+                // Case if the handler is null
+                // We don't want to continue
+                if (packetHandler == null) {
+                    continue;
                 }
 
-                // Check if the server version
-                // Is equal to the packet version
-                if (MinecraftServer.isVersion(handler.version())) {
-                    DisguiseAPI.getLogger().info(String.format("Found the appropriate provider for version %s: %s", MinecraftServer.CURRENT.getVersion(), clazz.getName()));
-                    return provider = clazz.getConstructor().newInstance();
+                // Check if the direct version matches
+                if (MinecraftServer.isVersion(packetHandler.version())) {
+                    this.provider = (PacketProvider<?>) clazz.getConstructor().newInstance();
+                    return;
                 }
 
-                // Loop through compatible versions
-                for (String serverVersion : handler.compatibility()) {
+                // Now check for compatibility matching
+                // Otherwise throw an error
+                for (String serverVersion : packetHandler.compatibility()) {
                     if (MinecraftServer.isVersion(serverVersion)) {
-                        // Then the current class is also compatible with the current version
-                        DisguiseAPI.getLogger().info(String.format("Found the appropriate provider for version %s: %s", MinecraftServer.CURRENT.getVersion(), clazz.getName()));
-                        return provider = clazz.getConstructor().newInstance();
+                        this.provider = (PacketProvider<?>) clazz.getConstructor().newInstance();
+                        return;
                     }
                 }
             } catch (Exception e) {
-                DisguiseAPI.getLogger().error("An error occurred while trying to find an applicable provider for version: " + MinecraftServer.CURRENT.getVersion());
-                DisguiseAPI.getLogger().error(e.getMessage());
+                DisguiseAPI.getLogger().error("", e);
             }
         }
-
-        throw new ProviderNotFoundException();
     }
 
+    /**
+     * This method registers the given provider, which will be instantiated
+     * once the {@link #applyProvider()} is called if the versions match.
+     * <p>
+     * If the replace boolean is true, this version will replace any other class
+     * that matches the provided version of this one. By default, the value is true.
+     *
+     * @param providerClass the class of the provider
+     * @param replace whether we should replace any other classes with this noe
+     */
+
+    public void registerProvider(Class<? extends PacketProvider<?>> providerClass, boolean replace) {
+        // Check if the provider has the PacketHandler annotation
+        PacketHandler packetHandler = providerClass.getAnnotation(PacketHandler.class);
+
+        // Break this
+        if (packetHandler == null) {
+            return;
+        }
+
+        if (!replace) {
+            this.registeredProviders.add(providerClass);
+            return;
+        }
+
+        // Remove condition
+        this.registeredProviders.removeIf(clazz -> {
+            PacketHandler other = clazz.getAnnotation(PacketHandler.class);
+
+            // Return condition
+            return other != null && other.version().equalsIgnoreCase(packetHandler.version());
+        });
+    }
+
+    /**
+     * This method registers the given provider.
+     *
+     * @param providerClass the given provider
+     */
+
+    public void registerProvider(Class<? extends PacketProvider<?>> providerClass) {
+        this.registerProvider(providerClass, true);
+    }
+
+    public PacketProvider<?> getProvider() {
+        return provider;
+    }
 }

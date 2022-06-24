@@ -42,7 +42,6 @@ public interface PacketProvider<T> {
      * @param packet the packets that are sent
      */
 
-    @SuppressWarnings("unchecked")
     default void sendPacket(T... packet) {
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             this.sendPacket(player, packet);
