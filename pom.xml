@@ -16,6 +16,7 @@
         <module>v1.9.4</module>
         <module>v1.10</module>
         <module>v1.11</module>
+        <module>v1.12</module>
     </modules>
 
     <properties>
