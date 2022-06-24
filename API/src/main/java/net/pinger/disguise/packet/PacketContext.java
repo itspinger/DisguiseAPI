@@ -2,7 +2,6 @@ package net.pinger.disguise.packet;
 
 public interface PacketContext {
 
-
     /**
      * This method is used to assign a value to the {@link PacketProvider} field
      * which manages sent packets for disguised
