@@ -63,9 +63,22 @@ public class DisguiseAPI {
                 disguise : new DisguiseAPI();
     }
 
+    /**
+     * This method returns the current provider.
+     *
+     * @return the provider
+     */
+
     public PacketProvider<?> getProvider() {
         return packetContext.getProvider();
     }
+
+    /**
+     * This method returns the standard logger
+     * of the api.
+     *
+     * @return the logger
+     */
 
     public static Logger getLogger() {
         return getInstance().logger;
