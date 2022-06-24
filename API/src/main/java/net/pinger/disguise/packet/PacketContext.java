@@ -100,6 +100,12 @@ public class PacketContext {
         this.registerProvider(providerClass, true);
     }
 
+    /**
+     * This method returns the current provider.
+     *
+     * @return the provider
+     */
+
     public PacketProvider<?> getProvider() {
         return provider;
     }
