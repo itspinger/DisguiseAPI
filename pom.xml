@@ -13,6 +13,7 @@
         <module>API</module>
         <module>Plugin</module>
         <module>v1.8.8</module>
+        <module>v1.9.4</module>
     </modules>
 
     <properties>
