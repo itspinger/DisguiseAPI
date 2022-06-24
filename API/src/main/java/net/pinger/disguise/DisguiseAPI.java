@@ -5,8 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DisguiseAPI {
-
-    private final Logger logger = LoggerFactory.getLogger("DisguiseAPI");
+    
     private static Disguise disguise;
 
     // Don't let anyone initialize this
