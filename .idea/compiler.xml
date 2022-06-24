@@ -7,12 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="API" />
-        <module name="Plugin" />
         <module name="v1.8.8" />
+        <module name="Plugin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="v1.7.10" target="16" />
+      <module name="v1.9.4" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>
