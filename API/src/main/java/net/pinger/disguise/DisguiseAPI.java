@@ -1,6 +1,5 @@
 package net.pinger.disguise;
 
-import net.pinger.disguise.packet.PacketContext;
 import net.pinger.disguise.packet.PacketProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,13 +7,19 @@ import org.slf4j.LoggerFactory;
 public class DisguiseAPI {
 
     private final Logger logger = LoggerFactory.getLogger("DisguiseAPI");
-    private final PacketContext packetContext;
-
-    private static DisguiseAPI disguise;
+    private static Disguise disguise;
 
     // Don't let anyone initialize this
-    private DisguiseAPI() {
-        this.packetContext = new PacketContext();
+    private DisguiseAPI() {}
+
+    /**
+     * This method sets the instance of the disguise field.
+     *
+     * @param disguise the disguise instance
+     */
+
+    public static void setDisguise(Disguise disguise) {
+        DisguiseAPI.disguise = disguise;
     }
 
     /**
@@ -23,7 +28,7 @@ public class DisguiseAPI {
      */
 
     public void applyProvider() {
-        this.packetContext.applyProvider();
+        disguise.getPacketContext().applyProvider();
     }
 
     /**
@@ -37,8 +42,8 @@ public class DisguiseAPI {
      * @param replace whether we should replace any other classes with this noe
      */
 
-    public void registerProvider(Class<? extends PacketProvider<?>> providerClass, boolean replace) {
-        this.packetContext.registerProvider(providerClass, replace);
+    public static void registerProvider(Class<? extends PacketProvider<?>> providerClass, boolean replace) {
+        disguise.getPacketContext().registerProvider(providerClass, replace);
     }
 
     /**
@@ -48,19 +53,8 @@ public class DisguiseAPI {
      */
 
 
-    public void registerProvider(Class<? extends PacketProvider<?>> providerClass) {
-        this.packetContext.registerProvider(providerClass);
-    }
-
-    /**
-     * This method returns the singleton instance of the api.
-     *
-     * @return the singleton instance
-     */
-
-    public static DisguiseAPI getInstance() {
-        return disguise != null ?
-                disguise : new DisguiseAPI();
+    public static void registerProvider(Class<? extends PacketProvider<?>> providerClass) {
+        disguise.getPacketContext().registerProvider(providerClass);
     }
 
     /**
@@ -69,8 +63,8 @@ public class DisguiseAPI {
      * @return the provider
      */
 
-    public PacketProvider<?> getProvider() {
-        return packetContext.getProvider();
+    public static PacketProvider<?> getProvider() {
+        return disguise.getPacketContext().getProvider();
     }
 
     /**
@@ -81,6 +75,6 @@ public class DisguiseAPI {
      */
 
     public static Logger getLogger() {
-        return getInstance().logger;
+        return disguise.getLogger();
     }
 }
