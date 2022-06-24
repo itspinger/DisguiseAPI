@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 
 public class DisguiseAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger("DisguiseAPI");
+    private final Logger logger = LoggerFactory.getLogger("DisguiseAPI");
     private final PacketContext packetContext;
+
+    private static DisguiseAPI disguise;
 
     // Don't let anyone initialize this
     private DisguiseAPI() {
@@ -50,11 +52,22 @@ public class DisguiseAPI {
         this.packetContext.registerProvider(providerClass);
     }
 
+    /**
+     * This method returns the singleton instance of the api.
+     *
+     * @return the singleton instance
+     */
+
+    public static DisguiseAPI getInstance() {
+        return disguise != null ?
+                disguise : new DisguiseAPI();
+    }
+
     public PacketProvider<?> getProvider() {
         return packetContext.getProvider();
     }
 
     public static Logger getLogger() {
-        return logger;
+        return getInstance().logger;
     }
 }
