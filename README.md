@@ -1,6 +1,6 @@
 # DisguiseAPI
 
-Disguise is an open-source API which solves manipulating with player skins in Minecraft using NMS.
+Disguise is an open-source library which solves manipulating with player skins in Minecraft using NMS.
 <br>
 The standard Bukkit/Spigot implementation does not provide support for changing skins, so using this API
 <br>
