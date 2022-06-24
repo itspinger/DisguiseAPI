@@ -11,14 +11,21 @@
 
     <modules>
         <module>API</module>
-        <module>v1.7.10</module>
-        <module>PacketHandler</module>
+        <module>Plugin</module>
+        <module>v1.8.8</module>
     </modules>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>nms-repo</id>
+            <url>https://repo.codemc.io/repository/nms/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- SLF4J -->

@@ -17,6 +17,11 @@
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="papermc-io" />
+      <option name="name" value="papermc-io" />
+      <option name="url" value="https://papermc.io/repo/repository/maven-releases/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="nms-repo" />
       <option name="name" value="nms-repo" />
       <option name="url" value="https://repo.codemc.io/repository/nms/" />
