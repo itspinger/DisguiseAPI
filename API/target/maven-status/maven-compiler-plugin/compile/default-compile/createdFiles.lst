@@ -1,4 +1,3 @@
-net\pinger\disguise\packet\PacketProvider.class
 net\pinger\disguise\DisguiseAPI.class
 net\pinger\disguise\packet\PacketContext.class
 net\pinger\disguise\packet\exception\ProviderNotFoundException.class
@@ -6,4 +5,5 @@ net\pinger\disguise\server\MinecraftServer.class
 net\pinger\disguise\skull\SkullManager.class
 net\pinger\disguise\context\GameObjectContext.class
 net\pinger\disguise\context\PropertyContext.class
+net\pinger\disguise\annotation\PacketHandler.class
 net\pinger\disguise\Skin.class

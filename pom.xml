@@ -11,6 +11,8 @@
 
     <modules>
         <module>API</module>
+        <module>v1.7.10</module>
+        <module>PacketHandler</module>
     </modules>
 
     <properties>
