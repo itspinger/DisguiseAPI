@@ -19,6 +19,7 @@
         <module>v1.12</module>
         <module>v1.13.1</module>
         <module>v1.13</module>
+        <module>v1.14</module>
     </modules>
 
     <properties>
