@@ -14,7 +14,11 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
 
     @Override
     public void onEnable() {
+        // Do stuff here
 
+
+        // Enable the plugin
+        DisguiseAPI.setDisguise(this);
     }
 
     @Override
