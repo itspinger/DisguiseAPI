@@ -59,6 +59,34 @@
             <artifactId>v1.11</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- 1.12 Provider -->
+        <dependency>
+            <groupId>net.pinger.disguise</groupId>
+            <artifactId>v1.12</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 1.13 Provider -->
+        <dependency>
+            <groupId>net.pinger.disguise</groupId>
+            <artifactId>v1.13</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 1.13.1 Provider -->
+        <dependency>
+            <groupId>net.pinger.disguise</groupId>
+            <artifactId>v1.13.1</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 1.14 Provider -->
+        <dependency>
+            <groupId>net.pinger.disguise</groupId>
+            <artifactId>v1.14</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
