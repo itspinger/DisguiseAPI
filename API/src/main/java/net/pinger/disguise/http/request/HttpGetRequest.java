@@ -7,7 +7,7 @@ import java.io.*;
 
 public class HttpGetRequest extends HttpRequest {
 
-    protected HttpGetRequest(String url) throws IOException {
+    public HttpGetRequest(String url) throws IOException {
         super(url);
     }
 
