@@ -27,6 +27,7 @@
         <module>v1.17</module>
         <module>v1.17.1</module>
         <module>v1.18</module>
+        <module>v1.18.2</module>
     </modules>
 
     <properties>
