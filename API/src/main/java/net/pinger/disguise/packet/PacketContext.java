@@ -7,7 +7,7 @@ public interface PacketContext {
      * which manages sent packets for disguised
      */
 
-    void applyProvider();
+    PacketProvider applyProvider();
 
     /**
      * This method registers the given provider, which will be instantiated

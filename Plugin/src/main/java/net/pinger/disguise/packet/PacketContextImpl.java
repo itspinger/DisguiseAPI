@@ -19,7 +19,7 @@ public class PacketContextImpl implements PacketContext {
     }
 
     @Override
-    public void applyProvider() {
+    public PacketProvider applyProvider() {
         // Search for the packet provider
         // By looping through each registered provider
         for (Class<?> clazz : registeredProviders) {
@@ -36,22 +36,22 @@ public class PacketContextImpl implements PacketContext {
 
                 // Check if the direct version matches
                 if (MinecraftServer.isVersion(packetHandler.version())) {
-                    this.provider = (PacketProvider) clazz.getConstructor().newInstance();
-                    return;
+                    return this.provider = (PacketProvider) clazz.getConstructor().newInstance();
                 }
 
                 // Now check for compatibility matching
                 // Otherwise throw an error
                 for (String serverVersion : packetHandler.compatibility()) {
                     if (MinecraftServer.isVersion(serverVersion)) {
-                        this.provider = (PacketProvider) clazz.getConstructor().newInstance();
-                        return;
+                        return this.provider = (PacketProvider) clazz.getConstructor().newInstance();
                     }
                 }
             } catch (Exception e) {
                 DisguiseAPI.getLogger().error("", e);
             }
         }
+
+        return null;
     }
 
     @Override

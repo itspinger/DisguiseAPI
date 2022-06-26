@@ -40,7 +40,7 @@ public class DisguiseAPI {
      * @param replace whether we should replace any other classes with this noe
      */
 
-    public static void registerProvider(Class<? extends PacketProvider<?>> providerClass, boolean replace) {
+    public static void registerProvider(Class<? extends PacketProvider> providerClass, boolean replace) {
         disguise.getPacketContext().registerProvider(providerClass, replace);
     }
 
@@ -51,7 +51,7 @@ public class DisguiseAPI {
      */
 
 
-    public static void registerProvider(Class<? extends PacketProvider<?>> providerClass) {
+    public static void registerProvider(Class<? extends PacketProvider> providerClass) {
         disguise.getPacketContext().registerProvider(providerClass);
     }
 
@@ -61,7 +61,7 @@ public class DisguiseAPI {
      * @return the provider
      */
 
-    public static PacketProvider<?> getProvider() {
+    public static PacketProvider getProvider() {
         return disguise.getPacketContext().getProvider();
     }
 
