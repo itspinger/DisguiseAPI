@@ -11,21 +11,15 @@ Currently, it has handlers for `1.8.8, 1.9.4, 1.10 releases, 1.11 releases, 1.12
 
 # Example Usage
 ```java
+package net.pinger.disguise;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
 public class ExamplePlugin extends JavaPlugin {
-	
+
 	@Override
 	public void onEnable() {
-		// DisguiseAPI.registerProvider(Provider.class); // Register provider here if you have any special providers
-        // After this you want to apply the provider
-        PacketProvider provider = DisguiseAPI.applyProvider();
-		
-		// Check if the provider is null and if so, it is advised to disable the plugin
-        if (provider == null) {
-			this.getPluginLoader().disablePlugin(this);
-			return;
-		}
-		
-		// Do stuff here
+		// Coming soon
 	}
 }
  ```
