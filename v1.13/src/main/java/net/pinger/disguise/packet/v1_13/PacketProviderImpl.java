@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 
-public class PacketProviderImpl implements PacketProvider<Packet<?>> {
+public class PacketProviderImpl implements PacketProvider {
 
     @Override
     public void updateProperties(Player player, @Nonnull Skin skin) {
@@ -39,14 +39,14 @@ public class PacketProviderImpl implements PacketProvider<Packet<?>> {
     }
 
     @Override
-    public void sendPacket(Player player, Packet<?>... packet) {
+    public void sendPacket(Player player, Object... packet) {
         // Get the entity player from the base player
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
         // Loop through each packet
         // And send it to this player
-        for (Packet<?> p : packet) {
-            entityPlayer.playerConnection.sendPacket(p);
+        for (Object p : packet) {
+            entityPlayer.playerConnection.sendPacket((Packet<?>) p);
         }
     }
 

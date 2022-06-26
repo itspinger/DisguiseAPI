@@ -25,8 +25,8 @@ public class DisguiseAPI {
      * which manages sent packets for disguised
      */
 
-    public void applyProvider() {
-        disguise.getPacketContext().applyProvider();
+    public static PacketProvider applyProvider() {
+        return disguise.getPacketContext().applyProvider();
     }
 
     /**
