@@ -20,7 +20,7 @@ public interface PacketContext {
      * @param replace whether we should replace any other classes with this noe
      */
 
-    void registerProvider(Class<? extends PacketProvider<?>> providerClass, boolean replace);
+    void registerProvider(Class<? extends PacketProvider> providerClass, boolean replace);
 
     /**
      * This method registers the given provider.
@@ -28,7 +28,7 @@ public interface PacketContext {
      * @param providerClass the given provider
      */
 
-    void registerProvider(Class<? extends PacketProvider<?>> providerClass);
+    void registerProvider(Class<? extends PacketProvider> providerClass);
 
     /**
      * This method returns the current provider.
@@ -36,5 +36,5 @@ public interface PacketContext {
      * @return the provider
      */
 
-    PacketProvider<?> getProvider();
+    PacketProvider getProvider();
 }

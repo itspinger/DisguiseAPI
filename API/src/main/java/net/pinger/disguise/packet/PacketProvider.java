@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 
-public interface PacketProvider<T> {
+public interface PacketProvider {
 
     /**
      * This method applies a certain property to a player.
@@ -33,7 +33,7 @@ public interface PacketProvider<T> {
      * @param packet the packets that are being sent
      */
 
-    void sendPacket(Player player, T... packet);
+    void sendPacket(Player player, Object... packet);
 
     /**
      * This method sends packets to all servers that are
@@ -42,7 +42,7 @@ public interface PacketProvider<T> {
      * @param packet the packets that are sent
      */
 
-    default void sendPacket(T... packet) {
+    default void sendPacket(Object... packet) {
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             this.sendPacket(player, packet);
         }

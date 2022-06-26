@@ -10,8 +10,8 @@ import java.util.Set;
 
 public class PacketContextImpl implements PacketContext {
 
-    private PacketProvider<?> provider;
-    private final Set<Class<? extends PacketProvider<?>>> registeredProviders = new HashSet<>();
+    private PacketProvider provider;
+    private final Set<Class<?>> registeredProviders = new HashSet<>();
 
     public PacketContextImpl() {
         // Add default providers here
@@ -36,7 +36,7 @@ public class PacketContextImpl implements PacketContext {
 
                 // Check if the direct version matches
                 if (MinecraftServer.isVersion(packetHandler.version())) {
-                    this.provider = (PacketProvider<?>) clazz.getConstructor().newInstance();
+                    this.provider = (PacketProvider) clazz.getConstructor().newInstance();
                     return;
                 }
 
@@ -44,7 +44,7 @@ public class PacketContextImpl implements PacketContext {
                 // Otherwise throw an error
                 for (String serverVersion : packetHandler.compatibility()) {
                     if (MinecraftServer.isVersion(serverVersion)) {
-                        this.provider = (PacketProvider<?>) clazz.getConstructor().newInstance();
+                        this.provider = (PacketProvider) clazz.getConstructor().newInstance();
                         return;
                     }
                 }
@@ -55,7 +55,7 @@ public class PacketContextImpl implements PacketContext {
     }
 
     @Override
-    public void registerProvider(Class<? extends PacketProvider<?>> providerClass, boolean replace) {
+    public void registerProvider(Class<? extends PacketProvider> providerClass, boolean replace) {
         // Check if the provider has the PacketHandler annotation
         PacketHandler packetHandler = providerClass.getAnnotation(PacketHandler.class);
 
@@ -79,12 +79,12 @@ public class PacketContextImpl implements PacketContext {
     }
 
     @Override
-    public void registerProvider(Class<? extends PacketProvider<?>> providerClass) {
+    public void registerProvider(Class<? extends PacketProvider> providerClass) {
         this.registerProvider(providerClass, true);
     }
 
     @Override
-    public PacketProvider<?> getProvider() {
+    public PacketProvider getProvider() {
         return provider;
     }
 }
