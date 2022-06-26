@@ -1,4 +1,4 @@
-package net.pinger.diguise.packet.v1_13_1;
+package net.pinger.disguise.packet.v1_13_1;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;

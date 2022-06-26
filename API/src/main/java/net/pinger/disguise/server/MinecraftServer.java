@@ -97,6 +97,6 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
 
     @Override
     public int compareTo(@Nonnull MinecraftServer o) {
-        return Arrays.compare(this.splitter, o.splitter);
+        return 0;
     }
 }

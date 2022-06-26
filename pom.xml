@@ -10,8 +10,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>API</module>
-        <module>Plugin</module>
         <module>v1.8.8</module>
         <module>v1.9.4</module>
         <module>v1.10</module>
@@ -24,16 +22,9 @@
         <module>v1.16.1</module>
         <module>v1.16.2</module>
         <module>v1.16.4</module>
-        <module>v1.17</module>
-        <module>v1.17.1</module>
-        <module>v1.18</module>
-        <module>v1.18.2</module>
+        <module>API</module>
+        <module>Plugin</module>
     </modules>
-
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-    </properties>
 
     <repositories>
         <repository>
