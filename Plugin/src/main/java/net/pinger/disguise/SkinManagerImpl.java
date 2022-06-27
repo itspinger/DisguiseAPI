@@ -15,61 +15,61 @@ import java.util.function.Consumer;
 
 public class SkinManagerImpl implements SkinManager {
 
-	// Field where all skins from url are saved
-	private final Map<String, Skin> skins = new HashMap<>();
+    // Field where all skins from url are saved
+    private final Map<String, Skin> skins = new HashMap<>();
 
-	// Reference to the main plugin
-	private final DisguisePlugin dp;
+    // Reference to the main plugin
+    private final DisguisePlugin dp;
 
-	public SkinManagerImpl(DisguisePlugin dp) {
-		this.dp = dp;
-	}
+    public SkinManagerImpl(DisguisePlugin dp) {
+        this.dp = dp;
+    }
 
-	@Override
-	public void getFromImage(String imageUrl, Consumer<Response<Skin>> response) {
-		Skin skin = this.skins.get(imageUrl);
+    @Override
+    public void getFromImage(String imageUrl, Consumer<Response<Skin>> response) {
+        Skin skin = this.skins.get(imageUrl);
 
-		// Check if the skin is already
-		// Cached
-		if (skin != null) {
-			// Add it to the consumers
-			response.accept(new Response<>(skin, Response.ResponseType.SUCCESS));
-			return;
-		}
+        // Check if the skin is already
+        // Cached
+        if (skin != null) {
+            // Add it to the consumers
+            response.accept(new Response<>(skin, Response.ResponseType.SUCCESS));
+            return;
+        }
 
-		Bukkit.getScheduler().runTaskAsynchronously(this.dp, () -> {
-			try {
-				// Create a request
-				HttpRequest req = new HttpPostRequest(HttpUtil.toMineskin(imageUrl));
-				HttpResponse res = req.connect();
+        Bukkit.getScheduler().runTaskAsynchronously(this.dp, () -> {
+            try {
+                // Create a request
+                HttpRequest req = new HttpPostRequest(HttpUtil.toMineskin(imageUrl));
+                HttpResponse res = req.connect();
 
-				// Read the response
-				JsonObject object = DisguiseAPI.GSON.fromJson(res.getResponse(), JsonObject.class);
+                // Read the response
+                JsonObject object = DisguiseAPI.GSON.fromJson(res.getResponse(), JsonObject.class);
 
-				// Sync back the data
-				// To save in the consumer
-				Bukkit.getScheduler().runTask(this.dp, () -> {
-					// Read from the error property
-					// That might be displayed
-					if (object.has("error")) {
-						response.accept(new Response<>(null, Response.ResponseType.FAILURE, new RuntimeException(object.get("error").getAsString())));
-						return;
-					}
+                // Sync back the data
+                // To save in the consumer
+                Bukkit.getScheduler().runTask(this.dp, () -> {
+                    // Read from the error property
+                    // That might be displayed
+                    if (object.has("error")) {
+                        response.accept(new Response<>(null, Response.ResponseType.FAILURE, new RuntimeException(object.get("error").getAsString())));
+                        return;
+                    }
 
-					// Read the data if there is no error
-					JsonObject textured = object.getAsJsonObject("data").getAsJsonObject("texture");
+                    // Read the data if there is no error
+                    JsonObject textured = object.getAsJsonObject("data").getAsJsonObject("texture");
 
-					// Instantiate the skin and store this url
-					Skin newSkin = new Skin(textured.get("value").getAsString(), textured.get("signature").getAsString());
-					this.skins.put(imageUrl, newSkin);
+                    // Instantiate the skin and store this url
+                    Skin newSkin = new Skin(textured.get("value").getAsString(), textured.get("signature").getAsString());
+                    this.skins.put(imageUrl, newSkin);
 
-					// Update the response consumer
-					response.accept(new Response<>(newSkin, Response.ResponseType.SUCCESS));
-				});
+                    // Update the response consumer
+                    response.accept(new Response<>(newSkin, Response.ResponseType.SUCCESS));
+                });
 
-			} catch (IOException e) {
-				response.accept(new Response<>(null, Response.ResponseType.FAILURE, e));
-			}
-		});
-	}
+            } catch (IOException e) {
+                response.accept(new Response<>(null, Response.ResponseType.FAILURE, e));
+            }
+        });
+    }
 }
