@@ -3,9 +3,7 @@ package net.pinger.disguise;
 import com.google.gson.JsonObject;
 import net.pinger.disguise.http.HttpRequest;
 import net.pinger.disguise.http.HttpResponse;
-import net.pinger.disguise.http.request.HttpPostRequest;
 import net.pinger.disguise.response.Response;
-import net.pinger.disguise.util.HttpUtil;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
