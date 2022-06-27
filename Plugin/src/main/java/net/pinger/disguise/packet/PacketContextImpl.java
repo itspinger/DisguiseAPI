@@ -11,7 +11,7 @@ import java.util.Set;
 public class PacketContextImpl implements PacketContext {
 
     private PacketProvider provider;
-    private final Set<Class<?>> registeredProviders = new HashSet<>();
+    private final Set<Class<? extends PacketProvider>> registeredProviders = new HashSet<>();
 
     public PacketContextImpl() {
         // Add default providers here
@@ -36,6 +36,7 @@ public class PacketContextImpl implements PacketContext {
 
                 // Check if the direct version matches
                 if (MinecraftServer.isVersion(packetHandler.version())) {
+                    DisguiseAPI.getLogger().info(packetHandler.version());
                     return this.provider = (PacketProvider) clazz.getConstructor().newInstance();
                 }
 
@@ -43,6 +44,7 @@ public class PacketContextImpl implements PacketContext {
                 // Otherwise throw an error
                 for (String serverVersion : packetHandler.compatibility()) {
                     if (MinecraftServer.isVersion(serverVersion)) {
+                        DisguiseAPI.getLogger().info(serverVersion);
                         return this.provider = (PacketProvider) clazz.getConstructor().newInstance();
                     }
                 }
@@ -86,5 +88,10 @@ public class PacketContextImpl implements PacketContext {
     @Override
     public PacketProvider getProvider() {
         return provider;
+    }
+
+    @Override
+    public Set<Class<? extends PacketProvider>> getRegisteredProviders() {
+        return this.registeredProviders;
     }
 }

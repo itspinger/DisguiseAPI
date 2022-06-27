@@ -1,5 +1,7 @@
 package net.pinger.disguise.packet;
 
+import java.util.Set;
+
 public interface PacketContext {
 
     /**
@@ -37,4 +39,12 @@ public interface PacketContext {
      */
 
     PacketProvider getProvider();
+
+    /**
+     * Returns a {@link Set} of registered providers.
+     *
+     * @return set of registered providers
+     */
+
+    Set<Class<? extends PacketProvider>> getRegisteredProviders();
 }

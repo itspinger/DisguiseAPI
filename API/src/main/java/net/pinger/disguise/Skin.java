@@ -1,5 +1,6 @@
 package net.pinger.disguise;
 
+import com.google.gson.JsonObject;
 import net.pinger.disguise.context.PropertyContext;
 import net.pinger.disguise.skull.SkullManager;
 import org.bukkit.Material;
@@ -79,6 +80,29 @@ public class Skin {
     @Nonnull
     public Object getHandle() {
         return PropertyContext.createProperty(this);
+    }
+
+    /**
+     * Returns a json representation of this object.
+     *
+     * @return the json representation
+     */
+
+    public JsonObject toJsonObject() {
+        // Create a new json object
+        JsonObject object = new JsonObject();
+
+
+        // Fill in the values
+        JsonObject properties = new JsonObject();
+        properties.addProperty("value", this.getValue());
+        properties.addProperty("signature", this.getSignature());
+
+        // Add the given properties
+        object.add("properties", properties);
+
+        // Return the object
+        return object;
     }
 
 }

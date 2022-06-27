@@ -15,6 +15,8 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
     public MinecraftServer(String version) {
         this.version = version;
 
+        Bukkit.broadcastMessage(version);
+
         // Convert to an array
         this.splitter = Arrays.stream(version.split("\\."))
                 .map(Integer::valueOf)
@@ -30,7 +32,7 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
      */
 
     public static MinecraftServer fromRaw(String rawVersion) {
-        return new MinecraftServer(rawVersion.substring(rawVersion.indexOf("(MC: " + 5), rawVersion.length() - 1));
+        return new MinecraftServer(rawVersion.substring(rawVersion.indexOf("(MC: ") + 5, rawVersion.length() - 1));
     }
 
     /**
@@ -97,6 +99,6 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
 
     @Override
     public int compareTo(@Nonnull MinecraftServer o) {
-        return 0;
+        return Arrays.compare(o.splitter, this.splitter);
     }
 }
