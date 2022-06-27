@@ -1,10 +1,13 @@
 package net.pinger.disguise;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.pinger.disguise.packet.PacketProvider;
 import org.slf4j.Logger;
 
 public class DisguiseAPI {
 
+    public static final Gson GSON = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
     private static Disguise disguise;
 
     // Don't let anyone initialize this

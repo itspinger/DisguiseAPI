@@ -36,7 +36,6 @@ public class PacketContextImpl implements PacketContext {
 
                 // Check if the direct version matches
                 if (MinecraftServer.isVersion(packetHandler.version())) {
-                    DisguiseAPI.getLogger().info(packetHandler.version());
                     return this.provider = (PacketProvider) clazz.getConstructor().newInstance();
                 }
 
@@ -44,7 +43,6 @@ public class PacketContextImpl implements PacketContext {
                 // Otherwise throw an error
                 for (String serverVersion : packetHandler.compatibility()) {
                     if (MinecraftServer.isVersion(serverVersion)) {
-                        DisguiseAPI.getLogger().info(serverVersion);
                         return this.provider = (PacketProvider) clazz.getConstructor().newInstance();
                     }
                 }
