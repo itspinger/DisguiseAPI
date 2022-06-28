@@ -2,9 +2,9 @@ package net.pinger.disguise.packet;
 
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.annotation.PacketHandler;
-import net.pinger.disguise.packet.v1_16_4.PacketProviderImpl;
 import net.pinger.disguise.server.MinecraftServer;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +15,24 @@ public class PacketContextImpl implements PacketContext {
 
     public PacketContextImpl() {
         // Add default providers here
-        this.registeredProviders.add(PacketProviderImpl.class);
+        registeredProviders.addAll(Arrays.asList(
+                net.pinger.disguise.packet.v1_8_8.PacketProviderImpl.class, // 1.8.8
+                net.pinger.disguise.packet.v1_9_4.PacketProviderImpl.class, // 1.9.4
+                net.pinger.disguise.packet.v1_10.PacketProviderImpl.class, // 1.10
+                net.pinger.disguise.packet.v1_11.PacketProviderImpl.class, // 1.11
+                net.pinger.disguise.packet.v1_12.PacketProviderImpl.class, // 1.12
+                net.pinger.disguise.packet.v1_13.PacketProviderImpl.class, // 1.13
+                net.pinger.disguise.packet.v1_13_1.PacketProviderImpl.class, // 1.13.1
+                net.pinger.disguise.packet.v1_14.PacketProviderImpl.class, // 1.14
+                net.pinger.disguise.packet.v1_15.PacketProviderImpl.class, // 1.15
+                net.pinger.disguise.packet.v1_16_1.PacketProviderImpl.class, // 1.16.1
+                net.pinger.disguise.packet.v1_16_2.PacketProviderImpl.class, // 1.16.2
+                net.pinger.disguise.packet.v1_16_4.PacketProviderImpl.class, // 1.16.4
+                net.pinger.disguise.packet.v1_17.PacketProviderImpl.class, // 1.17
+                net.pinger.disguise.packet.v1_17_1.PacketProviderImpl.class, // 1.17.1
+                net.pinger.disguise.packet.v1_18.PacketProviderImpl.class, // 1.18
+                net.pinger.disguise.packet.v1_18_2.PacketProviderImpl.class // 1.18.2
+        ));
     }
 
     @Override

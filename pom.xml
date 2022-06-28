@@ -22,6 +22,10 @@
         <module>v1.16.1</module>
         <module>v1.16.2</module>
         <module>v1.16.4</module>
+        <module>v1.17</module>
+        <module>v1.17.1</module>
+        <module>v1.18</module>
+        <module>v1.18.2</module>
         <module>API</module>
         <module>Plugin</module>
     </modules>
