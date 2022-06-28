@@ -78,7 +78,7 @@ public class PacketContextImpl implements PacketContext {
 
         // Break this
         if (packetHandler == null) {
-            return;
+            throw new IllegalArgumentException("Unable to register a class with no @PacketHandler annotation.");
         }
 
         if (!replace) {

@@ -18,6 +18,7 @@ public interface PacketContext {
      * If the replace boolean is true, this version will replace any other class
      * that matches the provided version of this one. By default, the value is true.
      *
+     * @throws IllegalArgumentException if the class doesn't have a {@link net.pinger.disguise.annotation.PacketHandler} annotation
      * @param providerClass the class of the provider
      * @param replace whether we should replace any other classes with this noe
      */
@@ -27,6 +28,7 @@ public interface PacketContext {
     /**
      * This method registers the given provider.
      *
+     * @throws IllegalArgumentException if the class doesn't have a {@link net.pinger.disguise.annotation.PacketHandler} annotation
      * @param providerClass the given provider
      */
 
