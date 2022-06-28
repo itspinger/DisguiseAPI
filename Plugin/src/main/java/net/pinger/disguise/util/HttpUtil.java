@@ -1,8 +1,11 @@
 package net.pinger.disguise.util;
 
+import java.util.UUID;
+
 public class HttpUtil {
 
     private final static String MINESKIN_URL = "https://api.mineskin.org/generate/url?url=%s";
+    private static final String MOJANG_URL = "https://sessionserver.mojang.com/session/minecraft/profile/%s?unsigned=false";
 
     /**
      * This method returns a new mineskin url used for requesting new skins.
@@ -13,6 +16,18 @@ public class HttpUtil {
 
     public static String toMineskin(String url) {
         return String.format(MINESKIN_URL, url);
+    }
+
+    /**
+     * Returns a {@link String} which represents a formatted url to the mojang servers.
+     * It specifically formats the {@link HttpUtil#MOJANG_URL} with the specified uuid.
+     *
+     * @param uuid the uuid of the player
+     * @return the formatted string
+     */
+
+    public static String toMojangUrl(UUID uuid) {
+        return String.format(MOJANG_URL, uuid);
     }
 
 }

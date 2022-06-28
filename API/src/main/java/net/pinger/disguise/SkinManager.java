@@ -1,6 +1,9 @@
 package net.pinger.disguise;
 
+import net.pinger.disguise.exception.UserNotFoundException;
 import net.pinger.disguise.response.Response;
+
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public interface SkinManager {
@@ -16,7 +19,7 @@ public interface SkinManager {
      *
      * <p>
      * As of June 27th 2022, the response (success) format looks like this,
-     * where only an url is provided:
+     * where only a url is provided:
      * <pre>
      * {
      *   "id": 0,
@@ -49,4 +52,7 @@ public interface SkinManager {
 
     void getFromImage(String imageUrl, Consumer<Response<Skin>> response);
 
+    Skin getFromMojang(String playerName);
+
+    Skin getFromMojang(UUID playerId) throws UserNotFoundException;
 }
