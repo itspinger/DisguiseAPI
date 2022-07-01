@@ -3,6 +3,7 @@ package net.pinger.disguise.packet;
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.server.MinecraftServer;
+import org.bukkit.Bukkit;
 
 import java.util.Arrays;
 import java.util.HashSet;

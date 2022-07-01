@@ -3,6 +3,7 @@ package net.pinger.disguise;
 import net.pinger.disguise.packet.PacketContext;
 import net.pinger.disguise.packet.PacketContextImpl;
 import net.pinger.disguise.packet.PacketProvider;
+import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         // Get the number of providers
         Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
         logger.info(String.format("Loaded providers: %s", providers.size()));
+        logger.info(String.format("Current Server Version: %s", MinecraftServer.CURRENT.getVersion()));
         logger.info("Searching for a PacketHandler corresponding with this version...");
 
         // Try to apply the provider

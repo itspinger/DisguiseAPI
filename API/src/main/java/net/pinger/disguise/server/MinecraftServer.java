@@ -1,5 +1,6 @@
 package net.pinger.disguise.server;
 
+import net.pinger.disguise.DisguiseAPI;
 import org.bukkit.Bukkit;
 
 import javax.annotation.Nonnull;
@@ -15,11 +16,10 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
     public MinecraftServer(String version) {
         this.version = version;
 
-        Bukkit.broadcastMessage(version);
-
         // Convert to an array
         this.splitter = Arrays.stream(version.split("\\."))
-                .map(Integer::valueOf)
+                .filter(o -> !o.isEmpty())
+                .map(Integer::parseInt)
                 .toArray(Integer[]::new);
     }
 

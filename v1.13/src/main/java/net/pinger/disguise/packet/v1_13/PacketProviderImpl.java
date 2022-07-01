@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_13_R1.*;
 import net.pinger.disguise.Skin;
+import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.packet.PacketProvider;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 
+@PacketHandler(version = "1.13")
 public class PacketProviderImpl implements PacketProvider {
 
     @Override
