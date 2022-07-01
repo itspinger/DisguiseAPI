@@ -4,7 +4,8 @@ import java.util.UUID;
 
 public class HttpUtil {
 
-    private final static String MINESKIN_URL = "https://api.mineskin.org/generate/url?url=%s";
+    private static final String MINESKIN_URL = "https://api.mineskin.org/generate/url?url=%s";
+    private static final String MOJANG_NAME_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
     private static final String MOJANG_URL = "https://sessionserver.mojang.com/session/minecraft/profile/%s?unsigned=false";
 
     /**
@@ -29,5 +30,18 @@ public class HttpUtil {
     public static String toMojangUrl(UUID uuid) {
         return String.format(MOJANG_URL, uuid);
     }
+
+    /**
+     * Returns a new string which represents a formatted url pointing to the uuid of this player
+     * within the mojang servers.
+     *
+     * @param s the name of the player
+     * @return the url
+     */
+
+    public static String toMojangUrl(String s) {
+        return String.format(MOJANG_NAME_URL, s);
+    }
+
 
 }

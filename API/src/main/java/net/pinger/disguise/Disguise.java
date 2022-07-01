@@ -15,6 +15,15 @@ public interface Disguise {
     PacketContext getPacketContext();
 
     /**
+     * This method returns the skin manager
+     * responsible for fetching skins.
+     *
+     * @return the skin manager
+     */
+
+    SkinManager getSkinManager();
+
+    /**
      * This method returns the SLF4J logger.
      *
      * @return the logger

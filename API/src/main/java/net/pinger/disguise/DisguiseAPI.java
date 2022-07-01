@@ -33,6 +33,17 @@ public class DisguiseAPI {
     }
 
     /**
+     * This method returns the skin manager
+     * responsible for fetching skins.
+     *
+     * @return the skin manager
+     */
+
+    public static SkinManager getSkinManager() {
+        return disguise.getSkinManager();
+    }
+
+    /**
      * This method registers the given provider, which will be instantiated
      * once the {@link #applyProvider()} is called if the versions match.
      * <p>
