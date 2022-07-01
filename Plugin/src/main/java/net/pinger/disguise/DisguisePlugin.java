@@ -27,10 +27,16 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         // Get the number of providers
         Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
         logger.info(String.format("Loaded providers: %s", providers.size()));
-        logger.info("Searching for the PacketProvider corresponding with this version...");
+        logger.info("Searching for a PacketHandler corresponding with this version...");
 
         // Try to apply the provider
         PacketProvider provider = this.packetContext.applyProvider();
+        if (provider == null) {
+            // Send info message
+            logger.error("Failed to find a PacketHandler matching with this version.");
+        } else {
+            logger.info("Successfully found a PacketHandler matching this version.");
+        }
     }
 
 
