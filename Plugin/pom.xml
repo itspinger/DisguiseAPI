@@ -12,7 +12,7 @@
     <artifactId>Plugin</artifactId>
 
     <build>
-        <finalName>DisguisePlus</finalName>
+        <finalName>DisguiseAPI</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
