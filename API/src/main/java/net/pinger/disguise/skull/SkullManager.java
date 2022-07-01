@@ -42,7 +42,7 @@ public class SkullManager {
         OfflinePlayer player = Bukkit.getOfflinePlayer(id);
 
         // Getting the skull
-        ItemStack stack = new ItemStack(Material.PLAYER_HEAD, (short) 3);
+        ItemStack stack = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
         SkullMeta meta = (SkullMeta) stack.getItemMeta();
 
         // Setting the owner
