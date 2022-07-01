@@ -52,7 +52,59 @@ public interface SkinManager {
 
     void getFromImage(String imageUrl, Consumer<Response<Skin>> response);
 
-    Skin getFromMojang(String playerName);
+    /**
+     * This method returns a new {@link Skin} instance based on the provided
+     * playerName.
+     * <p>
+     * Unlike {@link #getFromImage(String, Consumer)}, this method does not
+     * run asynchronously.
+     *
+     * If the call to the REST API is successful, the response will look
+     * like this:
+     * <pre>
+     * {
+     *   "id" : "c8809dd609af4706a92b3f89f6433a67",
+     *   "name" : "aha",
+     *   "properties" : [ {
+     *     "name" : "textures",
+     *     "value" : "someValue",
+     *     "signature" : "someSignature"
+     *   } ]
+     * }
+     * </pre>
+     *
+     * @param playerName the playerName to catch the skin from
+     * @return the new {@link Skin} instance, or null if failed
+     * @throws UserNotFoundException if the specified name does not match any users
+     */
+
+    Skin getFromMojang(String playerName) throws UserNotFoundException;
+
+    /**
+     * This method returns a new {@link Skin} instance based on the provided
+     * playerId.
+     * <p>
+     * Unlike {@link #getFromImage(String, Consumer)}, this method does not
+     * run asynchronously.
+     *
+     * If the call to the REST API is successful, the response will look
+     * like this:
+     * <pre>
+     * {
+     *   "id" : "c8809dd609af4706a92b3f89f6433a67",
+     *   "name" : "aha",
+     *   "properties" : [ {
+     *     "name" : "textures",
+     *     "value" : "someValue",
+     *     "signature" : "someSignature"
+     *   } ]
+     * }
+     * </pre>
+     *
+     * @param playerId the uuid of the player
+     * @return the new {@link Skin} instance, or null if failed
+     * @throws UserNotFoundException if the specified id does not match any users
+     */
 
     Skin getFromMojang(UUID playerId) throws UserNotFoundException;
 }
