@@ -1,3 +1,4 @@
 main: net.pinger.disguise.DisguisePlugin
 version: 1.0
 name: DisguiseAPI
+api-version: 1.16
