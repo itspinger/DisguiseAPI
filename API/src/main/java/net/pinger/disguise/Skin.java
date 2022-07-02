@@ -2,6 +2,8 @@ package net.pinger.disguise;
 
 import com.google.gson.JsonObject;
 import net.pinger.disguise.context.PropertyContext;
+import net.pinger.disguise.item.ItemBuilder;
+import net.pinger.disguise.item.XMaterial;
 import net.pinger.disguise.skull.SkullManager;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +26,7 @@ public class Skin {
     private final String value;
     private final String signature;
 
-    private final ItemStack skull = new ItemStack(Material.PLAYER_HEAD, (short) 3);
+    private final ItemStack skull = new ItemBuilder(XMaterial.PLAYER_HEAD).build();
 
     public Skin(String value, String signature) {
         this.value = value;
