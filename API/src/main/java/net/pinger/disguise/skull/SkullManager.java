@@ -6,6 +6,8 @@ import com.google.common.cache.LoadingCache;
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.Skin;
 import net.pinger.disguise.context.GameObjectContext;
+import net.pinger.disguise.item.ItemBuilder;
+import net.pinger.disguise.item.XMaterial;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -42,7 +44,7 @@ public class SkullManager {
         OfflinePlayer player = Bukkit.getOfflinePlayer(id);
 
         // Getting the skull
-        ItemStack stack = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
+        ItemStack stack = new ItemBuilder(XMaterial.PLAYER_HEAD).build();
         SkullMeta meta = (SkullMeta) stack.getItemMeta();
 
         // Setting the owner
