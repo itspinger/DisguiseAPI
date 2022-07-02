@@ -19,6 +19,8 @@
 *.tar.gz
 *.rar
 *.iml
+*/*.iml
+**/*.iml
 
 .idea
 /.idea
