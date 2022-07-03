@@ -11,8 +11,7 @@ public class Response<T> {
 
     public enum ResponseType {
         SUCCESS,
-        FAILURE,
-        UNKNOWN
+        FAILURE
     }
 
     private final T response;
@@ -38,7 +37,7 @@ public class Response<T> {
      *
      * @param response the response if available
      * @param type the type of the response
-     * @param responseMessage the errorMessage, if the response was null
+     * @param error the error, if the response was null
      */
 
     public Response(@Nullable T response, @Nonnull ResponseType type, @Nullable Throwable error) {

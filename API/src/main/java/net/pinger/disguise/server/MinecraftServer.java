@@ -4,21 +4,22 @@ import org.bukkit.Bukkit;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class MinecraftServer implements Comparable<MinecraftServer> {
+
+    /**
+     * A pattern for extraction of {@link MinecraftServer} versions
+     */
+
+    public static final Pattern VERSION_PATTERN = Pattern.compile("\\d{1,2}\\.\\d{1,2}\\.?\\d{0,3}", Pattern.MULTILINE);
 
     /**
      * Returns the wrapper of the current {@link MinecraftServer} version
      */
 
     public static final MinecraftServer CURRENT = MinecraftServer.fromRaw();
-
-    /**
-     * A pattern for extraction of {@link MinecraftServer} versions
-     */
-
-    private static final Pattern VERSION_PATTERN = Pattern.compile("\\d{1,2}\\.\\d{1,2}\\.\\d{1,3}");
 
     private final String version;
     private final Integer[] splitter;
@@ -42,7 +43,17 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
      */
 
     public static MinecraftServer fromRaw(String rawVersion) {
-        return new MinecraftServer(VERSION_PATTERN.matcher(rawVersion).group(0));
+        Matcher matcher = VERSION_PATTERN.matcher(rawVersion);
+
+        // Check if the version pattern
+        // Found a match for this input string
+        if (matcher.find()) {
+            return new MinecraftServer(matcher.group(0));
+        }
+
+        // Throw an error
+        // If the version is invalid
+        throw new IllegalArgumentException("Failed to parse Spigot version: " + rawVersion);
     }
 
     /**
