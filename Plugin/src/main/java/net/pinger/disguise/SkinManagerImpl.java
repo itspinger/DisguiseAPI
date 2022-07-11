@@ -7,6 +7,7 @@ import net.pinger.disguise.http.HttpResponse;
 import net.pinger.disguise.http.request.HttpGetRequest;
 import net.pinger.disguise.http.request.HttpPostRequest;
 import net.pinger.disguise.response.Response;
+import net.pinger.disguise.util.ConverterUtil;
 import net.pinger.disguise.util.HttpUtil;
 import org.bukkit.Bukkit;
 
@@ -85,7 +86,7 @@ public class SkinManagerImpl implements SkinManager {
 
            // If the response is null
            // Then the player is invalid
-           if (response.getResponse() == null) {
+           if (response.getResponse() == null || response.getResponse().isEmpty()) {
                throw new UserNotFoundException("Couldn't find this user.");
            }
 
@@ -94,7 +95,7 @@ public class SkinManagerImpl implements SkinManager {
 
            // This will never return null
            // Since the UUID is valid
-           return getFromMojang(UUID.fromString(object.get("id").getAsString()));
+           return getFromMojang(ConverterUtil.fromString(object.get("id").getAsString()));
        } catch (IOException e) {
            // If an exception is caught
            // We just want to return null
