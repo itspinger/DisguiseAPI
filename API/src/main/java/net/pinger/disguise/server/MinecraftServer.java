@@ -19,7 +19,7 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
      * Returns the wrapper of the current {@link MinecraftServer} version
      */
 
-    public static final MinecraftServer CURRENT = MinecraftServer.fromRaw();
+    public static final MinecraftServer CURRENT = MinecraftServer.fromRaw("1.8.8");
 
     private final String version;
     private final Integer[] splitter;
@@ -120,6 +120,6 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
 
     @Override
     public int compareTo(@Nonnull MinecraftServer o) {
-        return Arrays.compare(o.splitter, this.splitter);
+        return Arrays.compare(this.splitter, o.splitter);
     }
 }

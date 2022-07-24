@@ -2,6 +2,7 @@ package net.pinger.disguise.server;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MinecraftServerTest {
@@ -28,6 +29,20 @@ class MinecraftServerTest {
             // Assert the matcher of the formatted version equals
             // To the passed string
             assertEquals(s, MinecraftServer.fromRaw(formatted).getVersion());
+        }
+    }
+
+    @Test
+    void atLeast() {
+        String[] test = new String[] {"1.12", "1.12.1", "1.7.6", "1.4.3", "1.7", "1.6.5.4"};
+
+        for (String s : test) {
+            // Create version from this string
+            MinecraftServer testVersion = MinecraftServer.fromRaw(s);
+
+            // Compare the follow
+            System.out.printf("Comparing %s with %s%n", MinecraftServer.CURRENT.getVersion(), testVersion.getVersion());
+            System.out.println(MinecraftServer.CURRENT.compareTo(testVersion));
         }
     }
 }
