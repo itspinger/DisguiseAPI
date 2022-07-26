@@ -1,9 +1,11 @@
 package net.pinger.disguise.packet;
 
 import net.pinger.disguise.DisguiseAPI;
+import net.pinger.disguise.DisguisePlugin;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -11,10 +13,13 @@ import java.util.Set;
 
 public class PacketContextImpl implements PacketContext {
 
+    private final DisguisePlugin disguisePlugin;
     private PacketProvider provider;
     private final Set<Class<? extends PacketProvider>> registeredProviders = new HashSet<>();
 
-    public PacketContextImpl() {
+    public PacketContextImpl(DisguisePlugin disguisePlugin) {
+        this.disguisePlugin = disguisePlugin;
+
         // Add default providers here
         registeredProviders.addAll(Arrays.asList(
                 net.pinger.disguise.packet.v1_8_8.PacketProviderImpl.class, // 1.8.8
@@ -54,14 +59,14 @@ public class PacketContextImpl implements PacketContext {
 
                 // Check if the direct version matches
                 if (MinecraftServer.isVersion(packetHandler.version())) {
-                    return this.provider = (PacketProvider) clazz.getConstructor().newInstance();
+                    return this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(disguisePlugin);
                 }
 
                 // Now check for compatibility matching
                 // Otherwise throw an error
                 for (String serverVersion : packetHandler.compatibility()) {
                     if (MinecraftServer.isVersion(serverVersion)) {
-                        return this.provider = (PacketProvider) clazz.getConstructor().newInstance();
+                        return this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(disguisePlugin);
                     }
                 }
             } catch (Exception e) {

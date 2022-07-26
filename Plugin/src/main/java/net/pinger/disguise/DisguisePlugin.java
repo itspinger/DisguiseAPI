@@ -14,7 +14,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
 
     // The disguise plugin logger
     private final Logger logger = LoggerFactory.getLogger("DisguiseAPI");
-    private final PacketContextImpl packetContext = new PacketContextImpl();
+    private PacketContextImpl packetContext;
     private SkinManager skinManager;
 
     @Override
@@ -24,6 +24,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
 
         // Set the skin manager
         this.skinManager = new SkinManagerImpl(this);
+        this.packetContext = new PacketContextImpl(this);
 
         // Get the number of providers
         Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
