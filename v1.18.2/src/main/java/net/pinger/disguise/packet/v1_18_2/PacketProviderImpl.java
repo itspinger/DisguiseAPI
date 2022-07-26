@@ -12,12 +12,19 @@ import net.pinger.disguise.packet.PacketProvider;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
 
 @PacketHandler(version = "1.18.2")
 public class PacketProviderImpl implements PacketProvider {
+
+    private final Plugin plugin;
+
+    public PacketProviderImpl(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void updateProperties(Player player, @Nonnull Skin skin) {
