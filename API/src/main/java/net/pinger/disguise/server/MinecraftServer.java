@@ -19,7 +19,7 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
      * Returns the wrapper of the current {@link MinecraftServer} version
      */
 
-    public static final MinecraftServer CURRENT = MinecraftServer.fromRaw("1.8.8");
+    public static final MinecraftServer CURRENT = MinecraftServer.fromRaw();
 
     private final String version;
     private final Integer[] splitter;
