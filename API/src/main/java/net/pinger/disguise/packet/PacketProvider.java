@@ -69,7 +69,7 @@ public interface PacketProvider {
      * to players that have this player in sight.
      *
      * @param player the player to reshow
-     * @param plugin the plugin 
+     * @param plugin the plugin
      */
 
     static void refreshPlayer(Player player, Plugin plugin) {
