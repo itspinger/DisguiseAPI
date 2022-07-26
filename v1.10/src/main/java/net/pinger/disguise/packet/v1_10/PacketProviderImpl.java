@@ -5,11 +5,9 @@ import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_10_R1.*;
 import net.pinger.disguise.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
+import net.pinger.disguise.data.PlayerDataWrapper;
 import net.pinger.disguise.packet.PacketProvider;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.CraftChunk;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -78,31 +76,14 @@ public class PacketProviderImpl implements PacketProvider {
         this.sendPacket(new PacketPlayOutEntityDestroy(entityPlayer.getId()));
         this.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer));
 
-        final GameMode gameMode = player.getGameMode();
-        final boolean allowFlight = player.getAllowFlight();
-        final boolean flying = player.isFlying();
-        final Location location = player.getLocation();
-        final int level = player.getLevel();
-        final float xp = player.getExp();
-        final double maxHealth = player.getMaxHealth();
-        final double health = player.getHealth();
-
-        Chunk chunk = player.getLocation().getChunk();
-        net.minecraft.server.v1_10_R1.Chunk entity = ((CraftChunk) chunk).getHandle();
+        // Create a data wrapper
+        PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
+        Chunk entity = ((CraftChunk) player.getLocation().getChunk()).getHandle();
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             this.sendPacket(player, respawn);
 
-            player.setGameMode(gameMode);
-            player.setAllowFlight(allowFlight);
-            player.setFlying(flying);
-            player.teleport(location);
-            player.updateInventory();
-            player.setLevel(level);
-            player.setExp(xp);
-            player.setMaxHealth(maxHealth);
-            player.setHealth(health);
-
+            dataWrapper.applyProperties();
             this.sendPacket(player, new PacketPlayOutMapChunk(entity, 20));
 
             // Send the add packet
