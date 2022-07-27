@@ -1,11 +1,12 @@
 package net.pinger.disguise.server;
 
+import net.pinger.disguise.util.Arrays;
 import org.bukkit.Bukkit;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public final class MinecraftServer implements Comparable<MinecraftServer> {
 
@@ -28,7 +29,7 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
         this.version = version;
 
         // Convert to an array
-        this.splitter = Arrays.stream(version.split("\\."))
+        this.splitter = Stream.of(version.split("\\."))
                 .filter(o -> !o.isEmpty())
                 .map(Integer::parseInt)
                 .toArray(Integer[]::new);
