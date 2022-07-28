@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 public class PlayerDataWrapper {
 
     private final Player player;
-
     private final GameMode gameMode;
     private final boolean allowFlight;
     private final boolean flying;
@@ -48,9 +47,16 @@ public class PlayerDataWrapper {
         this.player.setFlying(this.flying);
         this.player.teleport(this.location);
         this.player.updateInventory();
-        this.player.setMaxHealth(this.maxHealth);
         this.player.setHealth(this.health);
         this.player.setLevel(this.level);
         this.player.setExp(this.xp);
+
+        // Set max health here
+        if (MinecraftServer.atLeast("1.9")) {
+            this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.maxHealth);
+            return;
+        }
+
+        this.player.setMaxHealth(this.maxHealth);
     }
 }
