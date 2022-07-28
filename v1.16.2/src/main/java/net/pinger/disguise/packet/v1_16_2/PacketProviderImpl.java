@@ -72,7 +72,7 @@ public class PacketProviderImpl implements PacketProvider {
         PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(
                 entityPlayer.world.getDimensionManager(),
                 entityPlayer.world.getDimensionKey(),
-                0,
+                entityPlayer.getWorld().worldData.c(),
                 entityPlayer.playerInteractManager.getGameMode(),
                 entityPlayer.playerInteractManager.getGameMode(),
                 false,
