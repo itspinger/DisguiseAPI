@@ -2,20 +2,24 @@ package net.pinger.disguise.packet.v1_18_2;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.*;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkPacketData;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
+import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
+import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.pinger.disguise.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
+import net.pinger.disguise.data.PlayerDataWrapper;
 import net.pinger.disguise.packet.PacketProvider;
-import org.bukkit.Location;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_18_R2.CraftChunk;
 import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
 
 @PacketHandler(version = "1.18.2")
 public class PacketProviderImpl implements PacketProvider {
@@ -67,47 +71,36 @@ public class PacketProviderImpl implements PacketProvider {
         // Get the entity player from the base player
         ServerPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
-        // Cache the location from the player
-        // Which might be updated later
-        Location loc = player.getLocation();
-
-        // Create the block position from the given location
-        BlockPos position = new BlockPos(
-                loc.getBlockX(),
-                loc.getBlockY(),
-                loc.getBlockZ());
-
-
         // Create the PacketPlayOutRespawn packet
         ClientboundRespawnPacket respawn = new ClientboundRespawnPacket(
                 entityPlayer.getCommandSenderWorld().dimensionTypeRegistration(),
                 entityPlayer.getCommandSenderWorld().dimension(),
-                entityPlayer.getId(),
+                entityPlayer.getCommandSenderWorld().getLevelData().getZSpawn(),
                 entityPlayer.gameMode.getGameModeForPlayer(),
                 entityPlayer.gameMode.getPreviousGameModeForPlayer(),
                 false,
-                false,
-                false);
-
-        // Create the PacketPlayOutPosition packet
-        ClientboundPlayerPositionPacket playerPosition = new ClientboundPlayerPositionPacket(
-                loc.getX(),
-                loc.getY(),
-                loc.getZ(),
-                loc.getYaw(),
-                loc.getPitch(),
-                new HashSet<>(),
-                0,
-                false);
+                entityPlayer.getLevel().isFlat(),
+                true);
 
         this.sendPacket(new ClientboundRemoveEntitiesPacket(entityPlayer.getId()));
         this.sendPacket(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, entityPlayer));
-        this.sendPacket(player, new ClientboundSetDefaultSpawnPositionPacket(position, 45));
-        this.sendPacket(player, respawn);
-        this.sendPacket(player, playerPosition);
-        this.sendPacket(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, entityPlayer));
 
-        player.updateInventory();
+        // Create a data wrapper
+        PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
+        LevelChunk entity = ((CraftChunk) player.getLocation().getChunk()).getHandle();
+
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            this.sendPacket(player, respawn);
+
+            dataWrapper.applyProperties();
+            this.sendPacket(player, new ClientboundLevelChunkPacketData(entity));
+
+            // Send the add packet
+            this.sendPacket(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, entityPlayer));
+
+            // Refresh the player
+            PacketProvider.refreshPlayer(player, plugin);
+        }, 1L);
     }
 
 }
