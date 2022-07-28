@@ -76,8 +76,8 @@ public class PacketProviderImpl implements PacketProvider {
                 entityPlayer.playerInteractManager.getGameMode(),
                 entityPlayer.playerInteractManager.getGameMode(),
                 false,
-                false,
-                false);
+                entityPlayer.getWorldServer().isFlatWorld(),
+                true);
 
         // Send all the necessary packets
         this.sendPacket(new PacketPlayOutEntityDestroy(entityPlayer.getId()));
