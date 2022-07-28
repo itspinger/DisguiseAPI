@@ -3,10 +3,7 @@ package net.pinger.disguise.packet.v1_18_2;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientboundLevelChunkPacketData;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
-import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
-import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.pinger.disguise.Skin;
@@ -102,5 +99,4 @@ public class PacketProviderImpl implements PacketProvider {
             PacketProvider.refreshPlayer(player, plugin);
         }, 1L);
     }
-
 }
