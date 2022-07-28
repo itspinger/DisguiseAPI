@@ -123,4 +123,9 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
     public int compareTo(@Nonnull MinecraftServer o) {
         return Arrays.compare(this.splitter, o.splitter);
     }
+
+    @Override
+    public String toString() {
+        return this.version;
+    }
 }
