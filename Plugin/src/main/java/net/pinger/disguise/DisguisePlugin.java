@@ -29,7 +29,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         // Get the number of providers
         Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
         logger.info(String.format("Loaded providers: %s", providers.size()));
-        logger.info(String.format("Current Server Version: %s", MinecraftServer.CURRENT.getVersion()));
+        logger.info(String.format("Current Server Version: %s", MinecraftServer.CURRENT));
         logger.info("Searching for a PacketHandler corresponding with this version...");
 
         // Try to apply the provider

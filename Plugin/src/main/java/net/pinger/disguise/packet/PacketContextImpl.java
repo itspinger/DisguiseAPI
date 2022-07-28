@@ -4,7 +4,6 @@ import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.DisguisePlugin;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.server.MinecraftServer;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
@@ -38,7 +37,8 @@ public class PacketContextImpl implements PacketContext {
                 net.pinger.disguise.packet.v1_17_1.PacketProviderImpl.class, // 1.17.1
                 net.pinger.disguise.packet.v1_18.PacketProviderImpl.class, // 1.18
                 net.pinger.disguise.packet.v1_18_2.PacketProviderImpl.class, // 1.18.2
-                net.pinger.disguise.packet.v1_19.PacketProviderImpl.class
+                net.pinger.disguise.packet.v1_19.PacketProviderImpl.class, // 1.19
+                net.pinger.disguise.packet.v1_19_1.PacketProviderImpl.class
         ));
     }
 
