@@ -37,7 +37,8 @@ public class PacketContextImpl implements PacketContext {
                 net.pinger.disguise.packet.v1_17.PacketProviderImpl.class, // 1.17
                 net.pinger.disguise.packet.v1_17_1.PacketProviderImpl.class, // 1.17.1
                 net.pinger.disguise.packet.v1_18.PacketProviderImpl.class, // 1.18
-                net.pinger.disguise.packet.v1_18_2.PacketProviderImpl.class // 1.18.2
+                net.pinger.disguise.packet.v1_18_2.PacketProviderImpl.class, // 1.18.2
+                net.pinger.disguise.packet.v1_19.PacketProviderImpl.class
         ));
     }
 
