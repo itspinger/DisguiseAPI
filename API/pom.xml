@@ -41,6 +41,13 @@
             <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Gson (Shade it in order for the plugin to work on versions that include SimpleJson) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.9.0</version>
+        </dependency>
     </dependencies>
 
 </project>
