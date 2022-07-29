@@ -12,7 +12,7 @@ The standard Bukkit/Spigot implementation does not provide support for changing 
 <br>
 you can easily control player skins.
 
-# Dependency 
+## Dependency 
 
 To install this repository, you should follow the next steps:
 
@@ -32,20 +32,9 @@ After the project has finished building, you may now use the project in your pro
 </dependency>
 ```
 
-# Example Usage
-```java
-package net.pinger.disguise;
+## Documentation
+- <a href = "">Javadoc:</a> Documentation for the current release (1.0 - SNAPSHOT)
+- <a href = "">User guide:</a> A well written user guide on how to use this library
 
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class ExamplePlugin extends JavaPlugin {
-
-	@Override
-	public void onEnable() {
-		// Coming soon
-	}
-}
- ```
-
-# License 
+## License 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
