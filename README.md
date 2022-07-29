@@ -43,7 +43,7 @@ dependencies {
 ### Documentation
 
 - <a href = "">Javadoc:</a> Documentation for the current release (1.0 - SNAPSHOT)
-- <a href = "">User guide:</a> A well written user guide on how to use this library
+- <a href = "https://github.com/itspinger/DisguiseAPI/wiki">User guide:</a> A well written user guide on how to use this library
 
 ### License 
 
