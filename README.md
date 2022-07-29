@@ -12,6 +12,26 @@ The standard Bukkit/Spigot implementation does not provide support for changing 
 <br>
 you can easily control player skins.
 
+# Dependency 
+
+To install this repository, you should follow the next steps:
+
+1. Clone this repository: git clone https://github.com/ITSPINGER/DisguiseAPI.git
+2. Enter into the directory folder: cd DisguiseAPI
+3. Build the project using Maven: mvn clean install
+
+After the project has finished building, you may now use the project in your projects.
+
+### Maven
+```xml
+<dependency>
+  <groupId>net.pinger.disguise</groupId>
+  <artifactId>API</artifactId>
+  <version>1.0-SNAPSHOT</version> <!-- At time of writing, 1.0-SNAPSHOT is latest version. See the pom.xml for the latest version -->
+  <scope>provided</scope> <!-- No need for compiling it since it is already included within the plugin -->
+</dependency>
+```
+
 # Example Usage
 ```java
 package net.pinger.disguise;
