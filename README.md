@@ -32,6 +32,14 @@ After the project has finished building, you may now use the project in your pro
 </dependency>
 ```
 
+#### Gradle
+```gradle
+dependencies {
+    // No need for compiling it since it is already included within the plugin
+    compileOnly 'net.pinger.disguise:API:1.0-SNAPSHOT'
+}
+```
+
 ### Documentation
 
 - <a href = "">Javadoc:</a> Documentation for the current release (1.0 - SNAPSHOT)
