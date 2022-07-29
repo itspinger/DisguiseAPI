@@ -33,8 +33,17 @@ After the project has finished building, you may now use the project in your pro
 ```
 
 ### Documentation
+
 - <a href = "">Javadoc:</a> Documentation for the current release (1.0 - SNAPSHOT)
 - <a href = "">User guide:</a> A well written user guide on how to use this library
 
 ### License 
+
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+### Plugins
+
+Down below plugins implementing this library will be mentioned, along with the download link. If you want your plugin to be
+included in this list, write me a message on Pinger#5246 (Discord)
+
+- <a href = "https://www.spigotmc.org/resources/disguise.84079/">DisguisePlus</a>
