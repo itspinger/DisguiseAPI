@@ -6,7 +6,7 @@ import net.pinger.disguise.Skin;
 
 import java.util.UUID;
 
-public class GameObjectContext {
+public class GameProfileContext {
 
     /**
      * This method creates a new game profile

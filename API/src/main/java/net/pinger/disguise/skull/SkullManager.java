@@ -5,12 +5,11 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.Skin;
-import net.pinger.disguise.context.GameObjectContext;
+import net.pinger.disguise.context.GameProfileContext;
 import net.pinger.disguise.item.ItemBuilder;
 import net.pinger.disguise.item.XMaterial;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -68,7 +67,7 @@ public class SkullManager {
                 metaSetProfileMethod.setAccessible(true);
             }
 
-            metaSetProfileMethod.invoke(meta, GameObjectContext.createProfile(skin));
+            metaSetProfileMethod.invoke(meta, GameProfileContext.createProfile(skin));
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             // if in an older API where there is no setProfile method,
             // we set the profile field directly.
@@ -78,7 +77,7 @@ public class SkullManager {
                     metaProfileField.setAccessible(true);
                 }
 
-                metaProfileField.set(meta, GameObjectContext.createProfile(skin));
+                metaProfileField.set(meta, GameProfileContext.createProfile(skin));
             } catch (NoSuchFieldException | IllegalAccessException ex2) {
                 DisguiseAPI.getLogger().error("Failed to mutate the given meta object.", ex);
             }
