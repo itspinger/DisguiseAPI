@@ -1,0 +1,14 @@
+net.pinger.disguise
+net.pinger.disguise.annotation
+net.pinger.disguise.context
+net.pinger.disguise.data
+net.pinger.disguise.exception
+net.pinger.disguise.http
+net.pinger.disguise.http.request
+net.pinger.disguise.item
+net.pinger.disguise.packet
+net.pinger.disguise.packet.exception
+net.pinger.disguise.response
+net.pinger.disguise.server
+net.pinger.disguise.skull
+net.pinger.disguise.util
