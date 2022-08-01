@@ -7,17 +7,19 @@ import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public class PacketContextImpl implements PacketContext {
 
-    private final DisguisePlugin disguisePlugin;
+    private final DisguisePlugin plugin;
     private PacketProvider provider;
     private final Set<Class<? extends PacketProvider>> registeredProviders = new HashSet<>();
+    private boolean fetched = false;
 
-    public PacketContextImpl(DisguisePlugin disguisePlugin) {
-        this.disguisePlugin = disguisePlugin;
+    public PacketContextImpl(DisguisePlugin plugin) {
+        this.plugin = plugin;
 
         // Add default providers here
         registeredProviders.addAll(Arrays.asList(
@@ -43,68 +45,47 @@ public class PacketContextImpl implements PacketContext {
     }
 
     @Override
-    public PacketProvider applyProvider() {
-        // Search for the packet provider
-        // By looping through each registered provider
-        for (Class<?> clazz : registeredProviders) {
+    public PacketProvider find() {
+        // Check if the provider was already fetched
+        // If so, retrieve from #getProvider
+        if (this.fetched) {
+            return this.provider;
+        }
+
+        for (Class<?> clazz : this.registeredProviders) {
             try {
                 // Get the PacketHandler annotation
-                // And check if versions match
+                // For each class
+                // To determine whether this is the version that we want
                 PacketHandler packetHandler = clazz.getAnnotation(PacketHandler.class);
 
-                // Case if the handler is null
-                // We don't want to continue
+                // Check if the annotation is null
+                // And skip if so
                 if (packetHandler == null) {
                     continue;
                 }
 
-                // Check if the direct version matches
+                // Check if the main version which this handler was built upon
+                // Is equal to the server version
+                // If not, check its compatibility and do the same
                 if (MinecraftServer.isVersion(packetHandler.version())) {
-                    return this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(disguisePlugin);
+                    this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(this.plugin);
                 }
 
-                // Now check for compatibility matching
-                // Otherwise throw an error
-                for (String serverVersion : packetHandler.compatibility()) {
-                    if (MinecraftServer.isVersion(serverVersion)) {
-                        return this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(disguisePlugin);
+                // Check compatibility versions
+                for (String compatibilityVersion : packetHandler.compatibility()) {
+                    if (MinecraftServer.isVersion(compatibilityVersion)) {
+                        this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(this.plugin);
                     }
                 }
             } catch (Exception e) {
-                DisguiseAPI.getLogger().error("", e);
+                DisguiseAPI.getLogger().info("", e);
             }
         }
 
+        // This means that no corresponding providers were found
+        // And so the plugin should fail to load
         return null;
-    }
-
-    @Override
-    public void registerProvider(Class<? extends PacketProvider> providerClass, boolean replace) {
-        // Check if the provider has the PacketHandler annotation
-        PacketHandler packetHandler = providerClass.getAnnotation(PacketHandler.class);
-
-        // Break this
-        if (packetHandler == null) {
-            throw new IllegalArgumentException("Unable to register a class with no @PacketHandler annotation.");
-        }
-
-        if (!replace) {
-            this.registeredProviders.add(providerClass);
-            return;
-        }
-
-        // Remove condition
-        this.registeredProviders.removeIf(clazz -> {
-            PacketHandler other = clazz.getAnnotation(PacketHandler.class);
-
-            // Return condition
-            return other != null && other.version().equalsIgnoreCase(packetHandler.version());
-        });
-    }
-
-    @Override
-    public void registerProvider(Class<? extends PacketProvider> providerClass) {
-        this.registerProvider(providerClass, true);
     }
 
     @Override
@@ -114,6 +95,6 @@ public class PacketContextImpl implements PacketContext {
 
     @Override
     public Set<Class<? extends PacketProvider>> getRegisteredProviders() {
-        return this.registeredProviders;
+        return Collections.unmodifiableSet(this.registeredProviders);
     }
 }

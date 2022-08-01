@@ -24,15 +24,6 @@ public class DisguiseAPI {
     }
 
     /**
-     * This method is used to assign a value to the {@link PacketProvider} field
-     * which manages sent packets for disguised
-     */
-
-    public static PacketProvider applyProvider() {
-        return disguise.getPacketContext().applyProvider();
-    }
-
-    /**
      * This method returns the skin manager
      * responsible for fetching skins.
      *
@@ -44,35 +35,28 @@ public class DisguiseAPI {
     }
 
     /**
-     * This method registers the given provider, which will be instantiated
-     * once the {@link #applyProvider()} is called if the versions match.
+     * This method returns the current provider, if possible.
      * <p>
-     * If the replace boolean is true, this version will replace any other class
-     * that matches the provided version of this one. By default, the value is true.
+     * If your plugin is depending on DisguiseAPI, it is important to check
+     * whether this method returns null in the <b>onEnable</b> method.
      *
-     * @param providerClass the class of the provider
-     * @param replace whether we should replace any other classes with this noe
-     */
-
-    public static void registerProvider(Class<? extends PacketProvider> providerClass, boolean replace) {
-        disguise.getPacketContext().registerProvider(providerClass, replace);
-    }
-
-    /**
-     * This method registers the given provider.
+     * You may not need to store this inside a static field, since
+     * it will not change once it has been set until the restart of the server.
+     * <br>
+     * <b>Correct</b> way of checking the provider would be:
+     * <pre>
+     *         if (provider == null) {
+     *             getOutput().info("FAILED TO FIND A PACKET PROVIDER!!!");
+     *             getOutput().info("FAILED TO FIND A PACKET PROVIDER!!!");
+     *             getOutput().info("FAILED TO FIND A PACKET PROVIDER!!!");
      *
-     * @param providerClass the given provider
-     */
-
-
-    public static void registerProvider(Class<? extends PacketProvider> providerClass) {
-        disguise.getPacketContext().registerProvider(providerClass);
-    }
-
-    /**
-     * This method returns the current provider.
+     *             // Disable the plugin
+     *             this.getPluginLoader().disablePlugin(this);
+     *             return;
+     *         }
+     * </pre>
      *
-     * @return the provider
+     * @return the current provider
      */
 
     public static PacketProvider getProvider() {

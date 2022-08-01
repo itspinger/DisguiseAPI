@@ -33,7 +33,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         logger.info("Searching for a PacketHandler corresponding with this version...");
 
         // Try to apply the provider
-        PacketProvider provider = this.packetContext.applyProvider();
+        PacketProvider provider = this.packetContext.find();
         if (provider == null) {
             // Send info message
             logger.error("Failed to find a PacketHandler matching with this version.");
