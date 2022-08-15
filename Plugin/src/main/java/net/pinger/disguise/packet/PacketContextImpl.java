@@ -69,13 +69,13 @@ public class PacketContextImpl implements PacketContext {
                 // Is equal to the server version
                 // If not, check its compatibility and do the same
                 if (MinecraftServer.isVersion(packetHandler.version())) {
-                    this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(this.plugin);
+                    return this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(this.plugin);
                 }
 
                 // Check compatibility versions
                 for (String compatibilityVersion : packetHandler.compatibility()) {
                     if (MinecraftServer.isVersion(compatibilityVersion)) {
-                        this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(this.plugin);
+                        return this.provider = (PacketProvider) clazz.getConstructor(Plugin.class).newInstance(this.plugin);
                     }
                 }
             } catch (Exception e) {
