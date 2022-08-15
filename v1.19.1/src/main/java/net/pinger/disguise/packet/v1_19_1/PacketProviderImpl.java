@@ -18,7 +18,7 @@ import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
 
-@PacketHandler(version = "1.19.1")
+@PacketHandler(version = "1.19.1", compatibility = "1.19.2")
 public class PacketProviderImpl implements PacketProvider {
 
     private final Plugin plugin;
