@@ -1,5 +1,5 @@
 <p align="center">
-	<img src = "https://img.shields.io/badge/Supports-1.8.8%20--%201.19.1-%3Cbrightgreen%3E">
+	<img src = "https://img.shields.io/badge/Supports-1.8.8%20--%201.19.2-%3Cbrightgreen%3E">
 	<img src = "https://img.shields.io/badge/-Library-blue">
 	<img src = "https://img.shields.io/badge/-Easy%20to%20use-orange">
 </p>
