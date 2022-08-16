@@ -84,13 +84,11 @@ public class PacketProviderImpl implements PacketProvider {
 
         // Create a data wrapper
         PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
-        LevelChunk entity = ((CraftChunk) player.getLocation().getChunk()).getHandle();
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             this.sendPacket(player, respawn);
 
             dataWrapper.applyProperties();
-            this.sendPacket(player, new ClientboundLevelChunkPacketData(entity));
 
             // Send the add packet
             this.sendPacket(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, entityPlayer));
