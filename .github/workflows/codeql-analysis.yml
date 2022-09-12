@@ -55,6 +55,7 @@ jobs:
     - name: Setup Java JDK
       uses: actions/setup-java@v3.5.0
       with:
+        distribution: 'microsoft'
         java-version: '17'
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
