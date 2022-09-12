@@ -20,6 +20,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.Optional;
 
 @PacketHandler(version = "1.17")
 public class PacketProviderImpl implements PacketProvider {
@@ -28,6 +30,20 @@ public class PacketProviderImpl implements PacketProvider {
 
     public PacketProviderImpl(Plugin plugin) {
         this.plugin = plugin;
+    }
+
+    @Override
+    public Skin getProperty(Player player) {
+        GameProfile profile = ((CraftPlayer) player).getProfile();
+        Collection<Property> textures = profile.getProperties().get("textures");
+
+        // Check if the textures may be empty
+        if (textures.isEmpty()) {
+            return null;
+        }
+
+        Optional<Property> any = textures.stream().filter(property -> property.getValue() != null).findAny();
+        return any.map(property -> new Skin(property.getValue(), property.getSignature())).orElse(null);
     }
 
     @Override

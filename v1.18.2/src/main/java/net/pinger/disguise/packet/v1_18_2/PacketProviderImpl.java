@@ -3,20 +3,22 @@ package net.pinger.disguise.packet.v1_18_2;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.*;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
+import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
+import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.pinger.disguise.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.data.PlayerDataWrapper;
 import net.pinger.disguise.packet.PacketProvider;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_18_R2.CraftChunk;
 import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.Optional;
 
 @PacketHandler(version = "1.18.2")
 public class PacketProviderImpl implements PacketProvider {
@@ -25,6 +27,20 @@ public class PacketProviderImpl implements PacketProvider {
 
     public PacketProviderImpl(Plugin plugin) {
         this.plugin = plugin;
+    }
+
+    @Override
+    public Skin getProperty(Player player) {
+        GameProfile profile = ((CraftPlayer) player).getProfile();
+        Collection<Property> textures = profile.getProperties().get("textures");
+
+        // Check if the textures may be empty
+        if (textures.isEmpty()) {
+            return null;
+        }
+
+        Optional<Property> any = textures.stream().filter(property -> property.getValue() != null).findAny();
+        return any.map(property -> new Skin(property.getValue(), property.getSignature())).orElse(null);
     }
 
     @Override

@@ -5,17 +5,18 @@
     <parent>
         <artifactId>DisguiseAPI</artifactId>
         <groupId>net.pinger.disguise</groupId>
-        <version>1.1.0</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>v1.16.1</artifactId>
+    <artifactId>API</artifactId>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
                 <configuration>
                     <source>8</source>
                     <target>8</target>
@@ -24,26 +25,28 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>nms-repo</id>
-            <url>https://repo.codemc.io/repository/nms/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <dependency>
-            <groupId>net.pinger.disguise</groupId>
-            <artifactId>API</artifactId>
-            <version>1.1.0</version>
-        </dependency>
-
-        <!-- Spigot Dependency -->
+        <!-- Random Spigot Version -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.16.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- JUnit dependency -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Gson (Shade it in order for the plugin to work on versions that include SimpleJson) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.9.0</version>
         </dependency>
     </dependencies>
 

@@ -14,6 +14,16 @@ import java.util.UUID;
 public interface PacketProvider {
 
     /**
+     * This method retrieves the {@link Skin} property
+     * from the player's GameProfile.
+     *
+     * @param player the player
+     * @return the skin property
+     */
+
+    Skin getProperty(Player player);
+
+    /**
      * This method applies a certain property to a player.
      *
      * @param player the player that the skin is applied to
