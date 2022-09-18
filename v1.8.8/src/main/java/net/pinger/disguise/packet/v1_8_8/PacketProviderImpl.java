@@ -100,7 +100,7 @@ public class PacketProviderImpl implements PacketProvider {
             this.sendPacket(player, respawn);
 
             dataWrapper.applyProperties();
-            this.sendPacket(player, new PacketPlayOutMapChunk(entity, true, 20));
+            //this.sendPacket(player, new PacketPlayOutMapChunk(entity, true, 20));
 
             // Send the add packet
             this.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer));
