@@ -3,7 +3,11 @@ package net.pinger.disguise;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.pinger.disguise.packet.PacketProvider;
+import net.pinger.disguise.player.PlayerManager;
+import org.bukkit.entity.Player;
 import org.slf4j.Logger;
+
+import java.util.UUID;
 
 public class DisguiseAPI {
 
@@ -61,6 +65,19 @@ public class DisguiseAPI {
 
     public static PacketProvider getProvider() {
         return disguise.getPacketContext().getProvider();
+    }
+
+    public static PlayerManager getPlayerManager() {
+        return disguise.getPlayerManager();
+    }
+
+
+    public static DisguisePlayer getDisguisePlayer(Player player) {
+        return getPlayerManager().getDisguisePlayer(player);
+    }
+
+    public static DisguisePlayer getDisguisePlayer(UUID id) {
+        return getPlayerManager().getDisguisePlayer(id);
     }
 
     /**

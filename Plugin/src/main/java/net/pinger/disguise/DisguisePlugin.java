@@ -1,8 +1,11 @@
 package net.pinger.disguise;
 
+import net.pinger.disguise.listener.PlayerListener;
 import net.pinger.disguise.packet.PacketContext;
 import net.pinger.disguise.packet.PacketContextImpl;
 import net.pinger.disguise.packet.PacketProvider;
+import net.pinger.disguise.player.PlayerManager;
+import net.pinger.disguise.player.PlayerManagerImpl;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
@@ -16,6 +19,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
     private final Logger logger = LoggerFactory.getLogger("DisguiseAPI");
     private PacketContextImpl packetContext;
     private SkinManager skinManager;
+    private PlayerManager playerManager;
 
     @Override
     public void onEnable() {
@@ -25,6 +29,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         // Set the skin manager
         this.skinManager = new SkinManagerImpl(this);
         this.packetContext = new PacketContextImpl(this);
+        this.playerManager = new PlayerManagerImpl();
 
         // Get the number of providers
         Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
@@ -40,8 +45,16 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         } else {
             logger.info("Successfully found a PacketHandler matching this version.");
         }
+
+        // Register listeners
+        this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
+
+    @Override
+    public PlayerManager getPlayerManager() {
+        return this.playerManager;
+    }
 
     @Override
     public PacketContext getPacketContext() {

@@ -1,9 +1,12 @@
 package net.pinger.disguise;
 
 import net.pinger.disguise.packet.PacketContext;
+import net.pinger.disguise.player.PlayerManager;
 import org.slf4j.Logger;
 
 public interface Disguise {
+
+    PlayerManager getPlayerManager();
 
     /**
      * This method returns the packet context

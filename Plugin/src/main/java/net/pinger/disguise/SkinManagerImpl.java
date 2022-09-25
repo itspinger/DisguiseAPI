@@ -114,7 +114,7 @@ public class SkinManagerImpl implements SkinManager {
             JsonObject object = DisguiseAPI.GSON.fromJson(response.getResponse(), JsonObject.class);
 
             // Check if the response contains and error
-            if (object.has("errorMessage")) {
+            if (object == null || object.has("errorMessage")) {
                 throw new UserNotFoundException("Couldn't find this user.");
             }
 
