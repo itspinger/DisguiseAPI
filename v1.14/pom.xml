@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>v1.14</artifactId>
+    <version>1.1.1</version>
 
     <build>
         <plugins>
@@ -36,7 +37,7 @@
         <dependency>
             <groupId>net.pinger.disguise</groupId>
             <artifactId>API</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.1</version>
         </dependency>
 
         <!-- Spigot Dependency -->
