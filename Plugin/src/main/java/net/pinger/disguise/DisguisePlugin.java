@@ -1,6 +1,7 @@
 package net.pinger.disguise;
 
 import net.pinger.disguise.listener.PlayerListener;
+import net.pinger.disguise.metrics.Metrics;
 import net.pinger.disguise.packet.PacketContext;
 import net.pinger.disguise.packet.PacketContextImpl;
 import net.pinger.disguise.packet.PacketProvider;
@@ -45,6 +46,9 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         } else {
             logger.info("Successfully found a PacketHandler matching this version.");
         }
+
+        // Add metrics
+        new Metrics(this, 16508);
 
         // Register listeners
         this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
