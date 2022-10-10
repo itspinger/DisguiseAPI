@@ -30,7 +30,6 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         // Set the skin manager
         this.skinManager = new SkinManagerImpl(this);
         this.packetContext = new PacketContextImpl(this);
-        this.playerManager = new PlayerManagerImpl();
 
         // Get the number of providers
         Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
@@ -48,6 +47,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         }
 
         // Add metrics
+        this.playerManager = new PlayerManagerImpl();
         new Metrics(this, 16508);
 
         // Register listeners

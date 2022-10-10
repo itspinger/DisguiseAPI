@@ -130,6 +130,4 @@ public class SkinManagerImpl implements SkinManager {
             return null;
         }
     }
-
-
 }
