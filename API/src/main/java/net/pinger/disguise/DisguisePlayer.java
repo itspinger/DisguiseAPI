@@ -2,11 +2,28 @@ package net.pinger.disguise;
 
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
 public interface DisguisePlayer {
+
+    /**
+     * This method returns the default name of this player.
+     *
+     * @return the default name
+     */
+
+    String getDefaultName();
+
+    /**
+     * This method sets the default name of this player. Do note that
+     * if {@link #getDefaultName()} isn't null, using this method will have
+     * no effect on that method.
+     *
+     * @param name the name to set as default
+     */
+
+    void setDefaultName(String name);
 
     /**
      * This method returns the {@link Skin} default skin of the player.
@@ -27,7 +44,7 @@ public interface DisguisePlayer {
     Skin getCurrentSkin();
 
     /**
-     * This method returns the {@link UUID id} of this player..
+     * This method returns the {@link UUID id} of this player.
      *
      * @return the id of this user
      */

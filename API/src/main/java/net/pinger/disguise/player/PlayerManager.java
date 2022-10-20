@@ -42,4 +42,9 @@ public interface PlayerManager {
         throw new UnsupportedOperationException("Not supported yet");
     }
 
+    /**
+     * This method shutdowns this manager.
+     */
+
+    void shutdown();
 }

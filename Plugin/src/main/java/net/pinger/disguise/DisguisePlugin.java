@@ -21,6 +21,8 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
     private PacketContextImpl packetContext;
     private SkinManager skinManager;
     private PlayerManager playerManager;
+    private PacketProvider provider;
+    private NameFactory nameFactory;
 
     @Override
     public void onEnable() {
@@ -30,6 +32,7 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         // Set the skin manager
         this.skinManager = new SkinManagerImpl(this);
         this.packetContext = new PacketContextImpl(this);
+        this.nameFactory = new BukkitNameFactory(this);
 
         // Get the number of providers
         Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
@@ -38,8 +41,8 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         logger.info("Searching for a PacketHandler corresponding with this version...");
 
         // Try to apply the provider
-        PacketProvider provider = this.packetContext.find();
-        if (provider == null) {
+        this.provider = this.packetContext.find();
+        if (this.provider == null) {
             // Send info message
             logger.error("Failed to find a PacketHandler matching with this version.");
         } else {
@@ -54,6 +57,21 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
+    @Override
+    public void onDisable() {
+        // Disable
+        this.playerManager.shutdown();
+    }
+
+    @Override
+    public PacketProvider getProvider() {
+        return this.provider;
+    }
+
+    @Override
+    public NameFactory getNameFactory() {
+        return this.nameFactory;
+    }
 
     @Override
     public PlayerManager getPlayerManager() {

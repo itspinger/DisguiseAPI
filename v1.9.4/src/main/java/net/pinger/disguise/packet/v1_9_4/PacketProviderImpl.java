@@ -27,8 +27,13 @@ public class PacketProviderImpl implements PacketProvider {
     }
 
     @Override
+    public GameProfile getGameProfile(Player player) {
+        return ((CraftPlayer) player).getProfile();
+    }
+
+    @Override
     public Skin getProperty(Player player) {
-        GameProfile profile = ((CraftPlayer) player).getProfile();
+        GameProfile profile = this.getGameProfile(player);
         Collection<Property> textures = profile.getProperties().get("textures");
 
         // Check if the textures may be empty
@@ -42,7 +47,7 @@ public class PacketProviderImpl implements PacketProvider {
 
     @Override
     public void updateProperties(Player player, @Nonnull Skin skin) {
-        GameProfile profile = ((CraftPlayer) player).getProfile();
+        GameProfile profile = this.getGameProfile(player);
 
         // Check if the skin isn't equal to the property
         // Note that this shouldn't happen
@@ -61,7 +66,7 @@ public class PacketProviderImpl implements PacketProvider {
 
     @Override
     public void clearProperties(Player player) {
-        ((CraftPlayer) player).getProfile().getProperties().removeAll("textures");
+        this.getGameProfile(player).getProperties().removeAll("textures");
     }
 
     @Override

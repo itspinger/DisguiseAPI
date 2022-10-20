@@ -9,11 +9,28 @@ import java.util.UUID;
 
 public class DisguisePlayerImpl implements DisguisePlayer {
 
+    private String defaultName;
     private Skin defaultSkin;
     private final UUID id;
 
     public DisguisePlayerImpl(UUID id) {
         this.id = id;
+    }
+
+    @Override
+    public String getDefaultName() {
+        return this.defaultName;
+    }
+
+    @Override
+    public void setDefaultName(String name) {
+        // Don't allow change of name
+        // If already set
+        if (this.defaultName != null) {
+            return;
+        }
+
+        this.defaultName = name;
     }
 
     @Override

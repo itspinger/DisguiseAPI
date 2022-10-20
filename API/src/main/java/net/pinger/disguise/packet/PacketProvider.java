@@ -1,5 +1,6 @@
 package net.pinger.disguise.packet;
 
+import com.mojang.authlib.GameProfile;
 import net.pinger.disguise.Skin;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.Bukkit;
@@ -12,6 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PacketProvider {
+
+    /**
+     * This method returns the {@link GameProfile} for this player.
+     *
+     * @param player the player
+     * @return the game profile
+     */
+
+    GameProfile getGameProfile(Player player);
 
     /**
      * This method retrieves the {@link Skin} property

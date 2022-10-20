@@ -80,6 +80,10 @@ public class DisguiseAPI {
         return getPlayerManager().getDisguisePlayer(id);
     }
 
+    public static NameFactory getNameFactory() {
+        return disguise.getNameFactory();
+    }
+
     /**
      * This method returns the standard logger
      * of the api.

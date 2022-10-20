@@ -1,5 +1,6 @@
 package net.pinger.disguise.player;
 
+import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.DisguisePlayer;
 import net.pinger.disguise.DisguisePlayerImpl;
 import org.bukkit.Bukkit;
@@ -19,7 +20,14 @@ public class PlayerManagerImpl implements PlayerManager {
 
             // Get the player and fetch default skin
             DisguisePlayer disguisePlayer = getDisguisePlayer(player);
+            disguisePlayer.setDefaultName(player.getName());
             disguisePlayer.getDefaultSkin();
+            
+            // Send update packets for this player
+            // This might need to happen
+            // When we need to reset
+            // The player name
+            DisguiseAPI.getProvider().sendServerPackets(player);
         }
     }
 
@@ -36,5 +44,12 @@ public class PlayerManagerImpl implements PlayerManager {
     @Override
     public void createPlayer(UUID id) {
         this.players.putIfAbsent(id, new DisguisePlayerImpl(id));
+    }
+
+    @Override
+    public void shutdown() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            DisguiseAPI.getNameFactory().resetNick(player);
+        }
     }
 }
