@@ -27,7 +27,7 @@ After the project has finished building, you may now use the project in your pro
 <dependency>
   <groupId>net.pinger.disguise</groupId>
   <artifactId>API</artifactId>
-  <version>1.1.2</version> <!-- At time of writing, 1.1.0 is the latest version. See the pom.xml for the latest version -->
+  <version>1.1.3</version> <!-- At time of writing, 1.1.3 is the latest version. See the pom.xml for the latest version -->
   <scope>provided</scope> <!-- No need for compiling it within the jar since it is already included within the plugin -->
 </dependency>
 ```
