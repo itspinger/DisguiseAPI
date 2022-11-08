@@ -36,7 +36,7 @@ After the project has finished building, you may now use the project in your pro
 ```gradle
 dependencies {
     // No need for compiling it within the jar since it is already included within the plugin
-    compileOnly 'net.pinger.disguise:API:1.1.2'
+    compileOnly 'net.pinger.disguise:API:1.1.3'
 }
 ```
 
