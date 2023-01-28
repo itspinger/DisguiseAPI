@@ -3,6 +3,7 @@ package net.pinger.disguise.packet;
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.DisguisePlugin;
 import net.pinger.disguise.annotation.PacketHandler;
+import net.pinger.disguise.packet.v1_19_3.PacketProviderImpl;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.plugin.Plugin;
 
@@ -22,7 +23,7 @@ public class PacketContextImpl implements PacketContext {
         this.plugin = plugin;
 
         // Add default providers here
-        registeredProviders.addAll(Arrays.asList(
+        this.registeredProviders.addAll(Arrays.asList(
                 net.pinger.disguise.packet.v1_8_8.PacketProviderImpl.class, // 1.8.8
                 net.pinger.disguise.packet.v1_9_4.PacketProviderImpl.class, // 1.9.4
                 net.pinger.disguise.packet.v1_10.PacketProviderImpl.class, // 1.10
@@ -40,7 +41,8 @@ public class PacketContextImpl implements PacketContext {
                 net.pinger.disguise.packet.v1_18.PacketProviderImpl.class, // 1.18
                 net.pinger.disguise.packet.v1_18_2.PacketProviderImpl.class, // 1.18.2
                 net.pinger.disguise.packet.v1_19.PacketProviderImpl.class, // 1.19
-                net.pinger.disguise.packet.v1_19_1.PacketProviderImpl.class
+                net.pinger.disguise.packet.v1_19_1.PacketProviderImpl.class, // 1.19.1 and 1.19.2
+                net.pinger.disguise.packet.v1_19_3.PacketProviderImpl.class
         ));
     }
 
@@ -82,6 +84,8 @@ public class PacketContextImpl implements PacketContext {
                 DisguiseAPI.getLogger().info("", e);
             }
         }
+
+        this.fetched = true;
 
         // This means that no corresponding providers were found
         // And so the plugin should fail to load

@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Optional;
 
-@PacketHandler(version = "1.19.1", compatibility = {"1.19.2", "1.19.3"})
+@PacketHandler(version = "1.19.1", compatibility = {"1.19.2"})
 public class PacketProviderImpl implements PacketProvider {
 
     private final Plugin plugin;
