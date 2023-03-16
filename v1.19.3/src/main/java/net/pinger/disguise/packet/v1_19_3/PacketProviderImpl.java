@@ -100,11 +100,11 @@ public class PacketProviderImpl implements PacketProvider {
             entityPlayer.gameMode.getPreviousGameModeForPlayer(),
             false,
             entityPlayer.getLevel().isFlat(),
-            (byte) 1,
+            (byte) 0,
             entityPlayer.getLastDeathLocation());
 
         this.sendPacket(new ClientboundRemoveEntitiesPacket(entityPlayer.getId()));
-        this.sendPacket(new ClientboundPlayerInfoRemovePacket(Collections.singletonList(entityPlayer.getGameProfile().getId())));
+        this.sendPacket(new ClientboundPlayerInfoRemovePacket(Collections.singletonList(entityPlayer.getUUID())));
 
         // Create a data wrapper
         PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
@@ -115,7 +115,7 @@ public class PacketProviderImpl implements PacketProvider {
             dataWrapper.applyProperties();
 
             // Send the add packet
-            this.sendPacket(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, entityPlayer));
+            this.sendPacket(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(Collections.singletonList(entityPlayer)));
 
             // Refresh the player
             PacketProvider.refreshPlayer(player, plugin);
