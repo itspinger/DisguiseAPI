@@ -94,7 +94,6 @@ public class Skin {
         // Create a new json object
         JsonObject object = new JsonObject();
 
-
         // Fill in the values
         JsonObject properties = new JsonObject();
         properties.addProperty("value", this.getValue());

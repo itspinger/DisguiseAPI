@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 
-public class GameProfileModifier {
+public class ProfileModifier {
 
     /**
      * This field is holds the name of the player. Once the field has been changed,

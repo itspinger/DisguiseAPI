@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.pinger.disguise.packet.PacketProvider;
 import net.pinger.disguise.player.PlayerManager;
+import net.pinger.disguise.registration.RegistrySystem;
 import org.bukkit.entity.Player;
 import org.slf4j.Logger;
 
@@ -38,6 +39,10 @@ public class DisguiseAPI {
         return disguise.getSkinManager();
     }
 
+    public static RegistrySystem getRegistrySystem() {
+        return null;
+    }
+
     /**
      * This method returns the current provider, if possible.
      * <p>
@@ -70,7 +75,6 @@ public class DisguiseAPI {
     public static PlayerManager getPlayerManager() {
         return disguise.getPlayerManager();
     }
-
 
     public static DisguisePlayer getDisguisePlayer(Player player) {
         return getPlayerManager().getDisguisePlayer(player);

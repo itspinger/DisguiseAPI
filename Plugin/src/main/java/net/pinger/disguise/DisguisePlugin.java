@@ -16,8 +16,8 @@ import java.util.Set;
 
 public class DisguisePlugin extends JavaPlugin implements Disguise {
 
-    // The disguise plugin logger
-    private final Logger logger = LoggerFactory.getLogger("DisguiseAPI");
+    private static final Logger LOGGER = LoggerFactory.getLogger("DisguiseAPI");
+
     private PacketContextImpl packetContext;
     private SkinManager skinManager;
     private PlayerManager playerManager;
@@ -36,17 +36,17 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
 
         // Get the number of providers
         Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
-        logger.info(String.format("Loaded providers: %s", providers.size()));
-        logger.info(String.format("Current Server Version: %s", MinecraftServer.CURRENT));
-        logger.info("Searching for a PacketHandler corresponding with this version...");
+        LOGGER.info(String.format("Loaded providers: %s", providers.size()));
+        LOGGER.info(String.format("Current Server Version: %s", MinecraftServer.CURRENT));
+        LOGGER.info("Searching for a PacketHandler corresponding with this version...");
 
         // Try to apply the provider
         this.provider = this.packetContext.find();
         if (this.provider == null) {
             // Send info message
-            logger.error("Failed to find a PacketHandler matching with this version.");
+            LOGGER.error("Failed to find a PacketHandler matching with this version.");
         } else {
-            logger.info("Successfully found a PacketHandler matching this version.");
+            LOGGER.info("Successfully found a PacketHandler matching this version.");
         }
 
         // Add metrics
@@ -90,6 +90,6 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
 
     @Override
     public Logger getSimpleLogger() {
-        return this.logger;
+        return DisguisePlugin.LOGGER;
     }
 }
