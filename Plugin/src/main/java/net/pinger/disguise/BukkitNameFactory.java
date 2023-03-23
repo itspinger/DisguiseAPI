@@ -2,7 +2,8 @@ package net.pinger.disguise;
 
 import com.mojang.authlib.GameProfile;
 import net.pinger.disguise.exception.NameFormatException;
-import net.pinger.disguise.profile.GameProfileModifier;
+import net.pinger.disguise.profile.ProfileModifier;
+import net.pinger.disguise.registration.RegistrySystem;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -16,6 +17,9 @@ public class BukkitNameFactory implements NameFactory {
 
     @Override
     public void changeName(Player player, String name) throws NameFormatException {
+        assert DisguiseAPI.getRegistrySystem() != null;
+        DisguiseAPI.getRegistrySystem().addRegistration(null, RegistrySystem.DEFAULT_REGISTRATION);
+
         this.updatePlayerNickname(player, name);
     }
 
@@ -50,7 +54,7 @@ public class BukkitNameFactory implements NameFactory {
 
         // Now we can perform the operation
         // And hopefully an error isn't thrown on GameProfileModifier#modifyProfile
-        GameProfileModifier.modifyProfile(profile, nickname);
+        ProfileModifier.modifyProfile(profile, nickname);
         player.setDisplayName(nickname);
         player.setPlayerListName(nickname);
     }

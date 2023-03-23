@@ -24,8 +24,6 @@ public class DisguisePlayerImpl implements DisguisePlayer {
 
     @Override
     public void setDefaultName(String name) {
-        // Don't allow change of name
-        // If already set
         if (this.defaultName != null) {
             return;
         }

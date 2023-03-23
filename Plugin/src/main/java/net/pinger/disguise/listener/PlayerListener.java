@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PlayerListener implements Listener {
 
@@ -22,9 +23,9 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onJoin(PlayerJoinEvent event) {
-        // Call the get method once to retrieve the skin if it already doesn't exist
-        // Maybe there is a better way to do this?
+    public void onJoin(PlayerLoginEvent event) {
+        // Set the priority to lowest
+        // To make sure this one gets registered first
         DisguisePlayer player = this.disguise.getPlayerManager().getDisguisePlayer(event.getPlayer());
 
         // Set default stuff
