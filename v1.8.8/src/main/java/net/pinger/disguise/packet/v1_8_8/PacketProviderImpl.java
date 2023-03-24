@@ -91,7 +91,8 @@ public class PacketProviderImpl implements PacketProvider {
                 entityPlayer.dimension,
                 entityPlayer.getWorld().getDifficulty(),
                 entityPlayer.getWorld().worldData.getType(),
-                entityPlayer.playerInteractManager.getGameMode());
+                entityPlayer.playerInteractManager.getGameMode()
+        );
 
         // Send all the necessary packets
         this.sendPacket(new PacketPlayOutEntityDestroy(entityPlayer.getId()));
@@ -100,17 +101,16 @@ public class PacketProviderImpl implements PacketProvider {
         // Create a data wrapper
         PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+        Bukkit.getScheduler().runTask(plugin, () -> {
             this.sendPacket(player, respawn);
 
             dataWrapper.applyProperties();
-            //this.sendPacket(player, new PacketPlayOutMapChunk(entity, true, 20));
 
             // Send the add packet
             this.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer));
 
             // Refresh the player
             PacketProvider.refreshPlayer(player, plugin);
-        }, 1L);
+        });
     }
 }
