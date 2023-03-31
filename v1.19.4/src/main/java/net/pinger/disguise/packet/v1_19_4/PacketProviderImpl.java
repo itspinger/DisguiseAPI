@@ -3,16 +3,15 @@ package net.pinger.disguise.packet.v1_19_4;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
-import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
-import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.biome.BiomeManager;
 import net.pinger.disguise.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.data.PlayerDataWrapper;
 import net.pinger.disguise.packet.PacketProvider;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -20,6 +19,7 @@ import org.bukkit.plugin.Plugin;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
 
 @PacketHandler(version = "1.19.4")
@@ -89,36 +89,44 @@ public class PacketProviderImpl implements PacketProvider {
     @Override
     public void sendServerPackets(Player player) {
         // Get the entity player from the base player
-        ServerPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        ServerPlayer sp = ((CraftPlayer) player).getHandle();
 
         // Create the PacketPlayOutRespawn packet
         ClientboundRespawnPacket respawn = new ClientboundRespawnPacket(
-            entityPlayer.getCommandSenderWorld().dimensionTypeId(),
-            entityPlayer.getCommandSenderWorld().dimension(),
-            entityPlayer.getCommandSenderWorld().getLevelData().getZSpawn(),
-            entityPlayer.gameMode.getGameModeForPlayer(),
-            entityPlayer.gameMode.getPreviousGameModeForPlayer(),
-            false,
-            entityPlayer.getLevel().isFlat(),
-            (byte) 0,
-            entityPlayer.getLastDeathLocation());
+                sp.getCommandSenderWorld().dimensionTypeId(),
+                sp.getCommandSenderWorld().dimension(),
+                BiomeManager.obfuscateSeed(sp.getLevel().getSeed()),
+                sp.gameMode.getGameModeForPlayer(),
+                sp.gameMode.getPreviousGameModeForPlayer(),
+                false,
+                sp.getLevel().isFlat(),
+                (byte) 3,
+                sp.getLastDeathLocation()
+        );
 
-        this.sendPacket(new ClientboundRemoveEntitiesPacket(entityPlayer.getId()));
-        this.sendPacket(new ClientboundPlayerInfoRemovePacket(Collections.singletonList(entityPlayer.getUUID())));
+        // Get the name and stuff
+        Location l = player.getLocation();
+
+        // Send position
+        ClientboundPlayerPositionPacket pos = new ClientboundPlayerPositionPacket(l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch(), new HashSet<>(), 0);
+
+        //this.sendPacket(new ClientboundRemoveEntitiesPacket(entityPlayer.getId()));
+        this.sendPacket(player, new ClientboundPlayerInfoRemovePacket(Collections.singletonList(sp.getUUID())));
+        this.sendPacket(player, ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(Collections.singletonList(sp)));
+
+        this.sendPacket(player, respawn);
+        PlayerDataWrapper wrapper = new PlayerDataWrapper(player);
+        wrapper.applyProperties();
+
+        // Send the pos packet
+        this.sendPacket(player, pos);
+        PacketProvider.refreshPlayer(player, this.plugin);
 
         // Create a data wrapper
-        PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
+        // PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
+        // this.sendPacket(player, respawn);
+        // dataWrapper.applyProperties();
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            this.sendPacket(player, respawn);
-
-            dataWrapper.applyProperties();
-
-            // Send the add packet
-            this.sendPacket(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(Collections.singletonList(entityPlayer)));
-
-            // Refresh the player
-            PacketProvider.refreshPlayer(player, plugin);
-        }, 1L);
+        // Send the add packet
     }
 }

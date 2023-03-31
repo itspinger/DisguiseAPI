@@ -107,16 +107,14 @@ public class PacketProviderImpl implements PacketProvider {
         // Create a data wrapper
         PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            this.sendPacket(player, respawn);
+        this.sendPacket(player, respawn);
 
-            dataWrapper.applyProperties();
+        dataWrapper.applyProperties();
 
-            // Send the add packet
-            this.sendPacket(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, entityPlayer));
+        // Send the add packet
+        this.sendPacket(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, entityPlayer));
 
-            // Refresh the player
-            PacketProvider.refreshPlayer(player, plugin);
-        }, 1L);
+        // Refresh the player
+        PacketProvider.refreshPlayer(player, plugin);
     }
 }

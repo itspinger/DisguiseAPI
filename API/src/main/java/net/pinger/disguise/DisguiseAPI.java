@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.pinger.disguise.packet.PacketProvider;
 import net.pinger.disguise.player.PlayerManager;
+import net.pinger.disguise.registration.DisguiseRegistration;
 import net.pinger.disguise.registration.RegistrySystem;
 import org.bukkit.entity.Player;
 import org.slf4j.Logger;
@@ -29,6 +30,37 @@ public class DisguiseAPI {
     }
 
     /**
+     * This method returns the default {@link DisguiseProvider} created
+     * for changing player skins, names.
+     * <p>
+     * If you need a customized way of handling player data update,
+     * you can use {@link #createProvider(DisguiseRegistration)} method.
+     *
+     * @return the default provider
+     */
+
+    public static DisguiseProvider getDefaultProvider() {
+        return DisguiseAPI.disguise.getDefaultProvider();
+    }
+
+    /**
+     * This method creates a new {@link DisguiseProvider} for updating
+     * player skins, names.
+     * <p>
+     * Before using this method, make sure to read the documentation
+     * of {@link DisguiseRegistration}. If you don't need custom registration
+     * and validation for player property updates, you can use {@link #getDefaultProvider()}
+     * to use the default registration created for that purpose.
+     *
+     * @param registration the registration
+     * @return the created provider
+     */
+
+    public static DisguiseProvider createProvider(DisguiseRegistration registration) {
+        return DisguiseAPI.disguise.createProvider(registration);
+    }
+
+    /**
      * This method returns the skin manager
      * responsible for fetching skins.
      *
@@ -40,7 +72,7 @@ public class DisguiseAPI {
     }
 
     public static RegistrySystem getRegistrySystem() {
-        return null;
+        return disguise.getRegistrySystem();
     }
 
     /**

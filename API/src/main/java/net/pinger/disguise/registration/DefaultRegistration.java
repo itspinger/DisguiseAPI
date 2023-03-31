@@ -8,4 +8,8 @@ public class DefaultRegistration extends DisguiseRegistration {
     public void onPlayerUpdateInfo(PlayerUpdateInfo info) {
     }
 
+    @Override
+    public void onPlayerResetInfo(PlayerUpdateInfo info) {
+    }
+
 }

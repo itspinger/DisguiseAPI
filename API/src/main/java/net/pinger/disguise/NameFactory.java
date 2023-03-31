@@ -3,6 +3,7 @@ package net.pinger.disguise;
 import net.pinger.disguise.exception.NameFormatException;
 import org.bukkit.entity.Player;
 
+@Deprecated
 public interface NameFactory {
 
     /**

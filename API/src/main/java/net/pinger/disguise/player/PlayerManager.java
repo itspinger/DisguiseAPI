@@ -35,10 +35,10 @@ public interface PlayerManager {
     /**
      * This method creates a new {@link DisguisePlayer} from the given player id.
      *
-     * @param id the id of the player to create
+     * @param player the player to create
      */
 
-    default void createPlayer(UUID id) {
+    default void createPlayer(Player player) {
         throw new UnsupportedOperationException("Not supported yet");
     }
 
