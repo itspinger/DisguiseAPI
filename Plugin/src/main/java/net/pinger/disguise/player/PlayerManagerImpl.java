@@ -1,33 +1,30 @@
 package net.pinger.disguise.player;
 
-import net.pinger.disguise.DisguiseAPI;
-import net.pinger.disguise.DisguisePlayer;
-import net.pinger.disguise.DisguisePlayerImpl;
+import com.mojang.authlib.GameProfile;
+import net.pinger.disguise.*;
+import net.pinger.disguise.exception.ValidationException;
+import net.pinger.disguise.packet.PacketProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class PlayerManagerImpl implements PlayerManager {
 
+    private final DisguisePlugin disguise;
     private final Map<UUID, DisguisePlayer> players = new HashMap<>();
+    private final PacketProvider provider;
 
-    public PlayerManagerImpl() {
+    public PlayerManagerImpl(DisguisePlugin disguise) {
+        this.disguise = disguise;
+        this.provider = disguise.getPacketProvider();
+
+        // Cache all online players
         for (Player player : Bukkit.getOnlinePlayers()) {
-            this.createPlayer(player.getUniqueId());
-
-            // Get the player and fetch default skin
-            DisguisePlayer disguisePlayer = getDisguisePlayer(player);
-            disguisePlayer.setDefaultName(player.getName());
-            disguisePlayer.getDefaultSkin();
-            
-            // Send update packets for this player
-            // This might need to happen
-            // When we need to reset
-            // The player name
-            DisguiseAPI.getProvider().sendServerPackets(player);
+            this.createPlayer(player);
         }
     }
 
@@ -42,14 +39,26 @@ public class PlayerManagerImpl implements PlayerManager {
     }
 
     @Override
-    public void createPlayer(UUID id) {
-        this.players.putIfAbsent(id, new DisguisePlayerImpl(id));
+    public void createPlayer(Player player) {
+        UUID id = player.getUniqueId();
+        String name = player.getName();
+        Skin skin = DisguiseAPI.getProvider().getProperty(player);
+
+        // Add to the player
+        this.players.putIfAbsent(id, new DisguisePlayerImpl(id, skin, name));
     }
 
     @Override
     public void shutdown() {
+        // If the provider happens to be null for some reason
+        // Then skip the shutdown
+        if (this.provider == null) {
+            return;
+        }
+
+        // Reset all players
         for (Player player : Bukkit.getOnlinePlayers()) {
-            DisguiseAPI.getNameFactory().resetNick(player);
+            DisguiseAPI.getDefaultProvider().resetPlayerSilently(player);
         }
     }
 }

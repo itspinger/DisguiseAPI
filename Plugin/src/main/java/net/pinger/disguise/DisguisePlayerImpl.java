@@ -9,12 +9,14 @@ import java.util.UUID;
 
 public class DisguisePlayerImpl implements DisguisePlayer {
 
-    private String defaultName;
-    private Skin defaultSkin;
     private final UUID id;
+    private final Skin defaultSkin;
+    private final String defaultName;
 
-    public DisguisePlayerImpl(UUID id) {
+    public DisguisePlayerImpl(UUID id, Skin defaultSkin, String defaultName) {
         this.id = id;
+        this.defaultSkin = defaultSkin;
+        this.defaultName = defaultName;
     }
 
     @Override
@@ -23,42 +25,8 @@ public class DisguisePlayerImpl implements DisguisePlayer {
     }
 
     @Override
-    public void setDefaultName(String name) {
-        if (this.defaultName != null) {
-            return;
-        }
-
-        this.defaultName = name;
-    }
-
-    @Override
     public Skin getDefaultSkin() {
-        if (this.defaultSkin != null) {
-            return this.defaultSkin;
-        }
-
-        // Fetch the default skin here
-        boolean property = false;
-
-        try {
-            Skin skin = DisguiseAPI.getSkinManager().getFromMojang(this.id);
-
-            // If an error occurred, make sure to flag the property as true
-            if (skin == null) {
-                property = true;
-            }
-
-            this.defaultSkin = skin;
-        } catch (UserNotFoundException e) {
-            property = true;
-        }
-
-        if (!property) {
-            return this.defaultSkin;
-        }
-
-        // Catch from the property
-        return (this.defaultSkin = getCurrentSkin());
+        return this.defaultSkin;
     }
 
     @Override

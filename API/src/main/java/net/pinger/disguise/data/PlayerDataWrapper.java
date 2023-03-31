@@ -45,13 +45,7 @@ public class PlayerDataWrapper {
         this.player.setGameMode(this.gameMode);
         this.player.setAllowFlight(this.allowFlight);
         this.player.setFlying(this.flying);
-
-        if (!MinecraftServer.atLeast("1.9")) {
-            this.player.teleport(this.location.add(0, 1, 0));
-        } else {
-            this.player.teleport(this.location);
-        }
-
+        this.player.teleport(this.location);
         this.player.updateInventory();
         this.player.setHealth(this.health);
         this.player.setLevel(this.level);

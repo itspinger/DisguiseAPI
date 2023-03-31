@@ -2,6 +2,8 @@ package net.pinger.disguise.listener;
 
 import net.pinger.disguise.Disguise;
 import net.pinger.disguise.DisguisePlayer;
+import net.pinger.disguise.DisguisePlayerImpl;
+import net.pinger.disguise.DisguiseProviderImpl;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,20 +19,14 @@ public class PlayerListener implements Listener {
         this.disguise = disguise;
     }
 
-    @EventHandler
-    public void onAsyncJoin(AsyncPlayerPreLoginEvent event) {
-        this.disguise.getPlayerManager().createPlayer(event.getUniqueId());
-    }
-
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerLoginEvent event) {
         // Set the priority to lowest
         // To make sure this one gets registered first
-        DisguisePlayer player = this.disguise.getPlayerManager().getDisguisePlayer(event.getPlayer());
-
-        // Set default stuff
-        player.getDefaultSkin();
-        player.setDefaultName(event.getPlayer().getName());
+        // Make sure that even when this is in offline mode
+        // That the default skin is not null
+        // And in fact is fetched for the wanted player
+        this.disguise.getPlayerManager().createPlayer(event.getPlayer());
     }
 
 }

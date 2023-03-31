@@ -16,11 +16,11 @@ public class PacketContextImpl implements PacketContext {
 
     private final DisguisePlugin plugin;
     private PacketProvider provider;
-    private final Set<Class<? extends PacketProvider>> registeredProviders = new HashSet<>();
-    private boolean fetched = false;
+    private final Set<Class<? extends PacketProvider>> registeredProviders;
 
     public PacketContextImpl(DisguisePlugin plugin) {
         this.plugin = plugin;
+        this.registeredProviders = new HashSet<>();
 
         // Add default providers here
         this.registeredProviders.addAll(Arrays.asList(
@@ -42,8 +42,8 @@ public class PacketContextImpl implements PacketContext {
             net.pinger.disguise.packet.v1_18_2.PacketProviderImpl.class, // 1.18.2
             net.pinger.disguise.packet.v1_19.PacketProviderImpl.class, // 1.19
             net.pinger.disguise.packet.v1_19_1.PacketProviderImpl.class, // 1.19.1 and 1.19.2
-            net.pinger.disguise.packet.v1_19_3.PacketProviderImpl.class,
-            net.pinger.disguise.packet.v1_19_4.PacketProviderImpl.class
+            net.pinger.disguise.packet.v1_19_3.PacketProviderImpl.class, // 1.19.3
+            net.pinger.disguise.packet.v1_19_4.PacketProviderImpl.class // 1.19.4
         ));
     }
 
@@ -51,7 +51,7 @@ public class PacketContextImpl implements PacketContext {
     public PacketProvider find() {
         // Check if the provider was already fetched
         // If so, retrieve from #getProvider
-        if (this.fetched) {
+        if (this.provider != null) {
             return this.provider;
         }
 
@@ -86,8 +86,6 @@ public class PacketContextImpl implements PacketContext {
             }
         }
 
-        this.fetched = true;
-
         // This means that no corresponding providers were found
         // And so the plugin should fail to load
         return null;
@@ -95,7 +93,7 @@ public class PacketContextImpl implements PacketContext {
 
     @Override
     public PacketProvider getProvider() {
-        return provider;
+        return this.provider;
     }
 
     @Override

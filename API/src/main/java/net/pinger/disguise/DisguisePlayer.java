@@ -16,16 +16,6 @@ public interface DisguisePlayer {
     String getDefaultName();
 
     /**
-     * This method sets the default name of this player. Do note that
-     * if {@link #getDefaultName()} isn't null, using this method will have
-     * no effect on that method.
-     *
-     * @param name the name to set as default
-     */
-
-    void setDefaultName(String name);
-
-    /**
      * This method returns the {@link Skin} default skin of the player.
      *
      * @return the default skin of this player

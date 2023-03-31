@@ -26,13 +26,14 @@ public class Skin {
     private final String value;
     private final String signature;
 
-    private final ItemStack skull = new ItemBuilder(XMaterial.PLAYER_HEAD).build();
+    private final transient ItemStack skull;
 
     public Skin(String value, String signature) {
         this.value = value;
         this.signature = signature;
 
         // Update the meta
+        this.skull = new ItemBuilder(XMaterial.PLAYER_HEAD).build();
         SkullMeta meta = (SkullMeta) this.skull.getItemMeta();
         SkullManager.mutateItemMeta(meta, this);
         this.skull.setItemMeta(meta);
