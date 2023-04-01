@@ -94,47 +94,30 @@ public interface PacketProvider {
 
     static void refreshPlayer(Player player, Plugin plugin) {
         // Check if the version is at least 1.16
-        boolean version = MinecraftServer.atLeast("1.16");
+        // Which changed the way you can hide a player
+        // Using "Player#hidePlayer(Plugin, Player)"
+        // Instead of "Player#hidePlayer(Player)"
+        final boolean version = MinecraftServer.atLeast("1.16");
 
-        Bukkit.getScheduler().runTask(plugin, () -> {
-            // List of players that can see this player
-            List<UUID> see = new ArrayList<>();
-
-            // Loop through all online players
-            // And see which one can see this player
-            for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
-                if (!otherPlayer.canSee(player))
-                    continue;
-
-                see.add(otherPlayer.getUniqueId());
-
-                // Check for version in order to hide
-                if (version) {
-                    otherPlayer.hidePlayer(plugin, player);
-                    continue;
-                }
-
-                // Otherwise, hide with the old parameters
-                otherPlayer.hidePlayer(player);
+        // Hide the player
+        // To all other players
+        for (Player other : Bukkit.getOnlinePlayers()) {
+            if (version) {
+                other.hidePlayer(plugin, player);
+            } else {
+                other.hidePlayer(player);
             }
+        }
 
-            // Now show the player for each one in the list
-            for (UUID id : see) {
-                // Get the player from the id
-                Player otherPlayer = Bukkit.getPlayer(id);
-
-                // Edge case, but will not happen
-                if (otherPlayer == null)
-                    continue;
-
-                if (version) {
-                    otherPlayer.showPlayer(plugin, player);
-                    continue;
-                }
-
-                otherPlayer.showPlayer(player);
+        // Now loop once again
+        // And show the player
+        for (Player other : Bukkit.getOnlinePlayers()) {
+            if (version) {
+                other.showPlayer(plugin, player);
+            } else {
+                other.showPlayer(player);
             }
-        });
+        }
     }
 
 }
