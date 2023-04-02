@@ -85,13 +85,6 @@ public interface PacketProvider {
 
     void sendServerPackets(Player player);
 
-    default void updatePlayer(Plugin plugin, Player player) {
-        this.sendServerPackets(player);
-
-        // Also refresh the player
-        PacketProvider.refreshPlayer(player, plugin);
-    }
-
     /**
      * This method refreshes a player by hiding them and reshowing them
      * to players that have this player in sight.
