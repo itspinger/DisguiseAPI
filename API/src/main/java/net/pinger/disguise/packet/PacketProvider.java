@@ -83,13 +83,6 @@ public interface PacketProvider {
 
     void sendServerPackets(Player player);
 
-    default void updatePlayer(Plugin plugin, Player player) {
-        this.sendServerPackets(player);
-
-        // Also refresh the player
-        PacketProvider.refreshPlayer(player, plugin);
-    }
-
     /**
      * This method creates a new update for the specified player.
      *
