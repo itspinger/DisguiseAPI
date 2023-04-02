@@ -24,6 +24,11 @@ public class PlayerManagerImpl implements PlayerManager {
 
         // Cache all online players
         for (Player player : Bukkit.getOnlinePlayers()) {
+            // First refresh the player skin
+            // To other players
+            PacketProvider.refreshPlayer(player, this.disguise);
+
+            // Create the player
             this.createPlayer(player);
         }
     }

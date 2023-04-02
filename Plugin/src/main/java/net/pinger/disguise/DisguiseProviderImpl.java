@@ -46,6 +46,10 @@ public class DisguiseProviderImpl implements DisguiseProvider {
 
         if (skin != null) {
             this.provider.updateProperties(pl, skin);
+        } else {
+            // Reset just in case
+            // We are not able to find it
+            this.provider.clearProperties(pl);
         }
 
         if (name != null) {

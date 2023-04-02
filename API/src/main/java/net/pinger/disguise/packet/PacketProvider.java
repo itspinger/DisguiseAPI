@@ -6,6 +6,7 @@ import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -84,6 +85,13 @@ public interface PacketProvider {
 
     void sendServerPackets(Player player);
 
+    default void updatePlayer(Plugin plugin, Player player) {
+        this.sendServerPackets(player);
+
+        // Also refresh the player
+        PacketProvider.refreshPlayer(player, plugin);
+    }
+
     /**
      * This method refreshes a player by hiding them and reshowing them
      * to players that have this player in sight.
@@ -93,6 +101,13 @@ public interface PacketProvider {
      */
 
     static void refreshPlayer(Player player, Plugin plugin) {
+        // Skip this action
+        // If the plugin is disabled
+        // Otherwise an error will be thrown
+        if (!plugin.isEnabled()) {
+            return;
+        }
+
         // Check if the version is at least 1.16
         // Which changed the way you can hide a player
         // Using "Player#hidePlayer(Plugin, Player)"

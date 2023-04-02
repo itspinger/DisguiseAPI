@@ -112,21 +112,15 @@ public class PacketProviderImpl implements PacketProvider {
 
         //this.sendPacket(new ClientboundRemoveEntitiesPacket(entityPlayer.getId()));
         this.sendPacket(player, new ClientboundPlayerInfoRemovePacket(Collections.singletonList(sp.getUUID())));
-        this.sendPacket(player, ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(Collections.singletonList(sp)));
 
         this.sendPacket(player, respawn);
         PlayerDataWrapper wrapper = new PlayerDataWrapper(player);
         wrapper.applyProperties();
 
+        this.sendPacket(player, ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(Collections.singletonList(sp)));
+
         // Send the pos packet
         this.sendPacket(player, pos);
         PacketProvider.refreshPlayer(player, this.plugin);
-
-        // Create a data wrapper
-        // PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
-        // this.sendPacket(player, respawn);
-        // dataWrapper.applyProperties();
-
-        // Send the add packet
     }
 }
