@@ -2,6 +2,7 @@
 	<img src = "https://img.shields.io/badge/Supports-1.8.8%20--%201.19.4-%3Cbrightgreen%3E">
 	<img src = "https://img.shields.io/badge/-Library-blue">
 	<img src = "https://img.shields.io/badge/-Easy%20to%20use-orange">
+    <img src="https://imgur.com/xCRKtdh.png" width="120px" align="right">
 </p>
 
 <img src="https://imgur.com/xCRKtdh.png" width="120px" align="right"></img>
