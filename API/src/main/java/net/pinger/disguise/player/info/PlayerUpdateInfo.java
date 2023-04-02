@@ -15,11 +15,12 @@ public class PlayerUpdateInfo {
 
     public PlayerUpdateInfo(DisguisePlayer player, PlayerUpdateAction<?>... actions) {
         this.player = player;
-        this.actions = Arrays.asList(actions);
+        this.actions = new ArrayList<>(Arrays.asList(actions));
     }
 
     public PlayerUpdateInfo(DisguisePlayer player, Skin skin, String name) {
-        this(player);
+        this.player = player;
+        this.actions = new ArrayList<>();
 
         if (skin != null) {
             this.actions.add(new PlayerSkinUpdateAction(skin));
