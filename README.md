@@ -4,8 +4,9 @@
 	<img src = "https://img.shields.io/badge/-Easy%20to%20use-orange">
 </p>
 
-# DisguiseAPI
+<img src="https://imgur.com/xCRKtdh.png" width="120px" align="right"></img>
 
+# DisguiseAPI
 Disguise is an open-source library which manipulates with player skins in Minecraft using NMS.
 <br>
 The standard Spigot implementation does not provide support for changing skins, so using this API
