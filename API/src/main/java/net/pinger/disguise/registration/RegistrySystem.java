@@ -23,19 +23,11 @@ public class RegistrySystem {
         Set<DisguiseRegistration> registry = this.registrations.get(player);
 
         // If not used currently return
-        System.out.println("Hey");
         if (registry == null || registry.isEmpty()) {
             return false;
         }
 
-        System.out.println("Hey");
         int size = registry.contains(registration) ? registry.size() - 1 : registry.size();
-        System.out.println(size);
-        for (DisguiseRegistration reg : registry) {
-            System.out.println(registration);
-            System.out.println(reg);
-            System.out.println(reg.equals(registration));
-        }
 
         // Check if the size is empty after removing the registration
         // If it is contained anyway
