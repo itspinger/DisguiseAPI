@@ -61,6 +61,23 @@ public class DisguiseAPI {
     }
 
     /**
+     * This method returns the registry system responsible for handling
+     * different Disguise plugins at once.
+     * <p>
+     * This is useful for keeping event handlers upon disguises, but
+     * also limiting when players can, and cannot disguise.
+     * <p>
+     * For additional information, you can read the documentation
+     * of {@link DisguiseRegistration}.
+     *
+     * @return the registry system
+     */
+
+    public static RegistrySystem getRegistrySystem() {
+        return DisguiseAPI.disguise.getRegistrySystem();
+    }
+
+    /**
      * This method returns the skin manager
      * responsible for fetching skins.
      *
@@ -68,11 +85,7 @@ public class DisguiseAPI {
      */
 
     public static SkinManager getSkinManager() {
-        return disguise.getSkinManager();
-    }
-
-    public static RegistrySystem getRegistrySystem() {
-        return disguise.getRegistrySystem();
+        return DisguiseAPI.disguise.getSkinManager();
     }
 
     /**
@@ -80,7 +93,7 @@ public class DisguiseAPI {
      * <p>
      * If your plugin is depending on DisguiseAPI, it is important to check
      * whether this method returns null in the <b>onEnable</b> method.
-     *
+     * <p>
      * You may not need to store this inside a static field, since
      * it will not change once it has been set until the restart of the server.
      * <br>
@@ -100,24 +113,61 @@ public class DisguiseAPI {
      * @return the current provider
      */
 
+    @Deprecated
     public static PacketProvider getProvider() {
-        return disguise.getPacketContext().getProvider();
+        return DisguiseAPI.disguise.getPacketContext().getProvider();
     }
+
+    /**
+     * This method returns the player manager.
+     *
+     * @return the player manager
+     */
 
     public static PlayerManager getPlayerManager() {
-        return disguise.getPlayerManager();
+        return DisguiseAPI.disguise.getPlayerManager();
     }
+
+    /**
+     * This method attempts to find the specified player in the
+     * cache of players.
+     * <p>
+     * Unlike, {@link #getDisguisePlayer(UUID)} this method will
+     * never return null, as players are cached upon joining the server
+     * and removed from the cache when they leave.
+     *
+     * @param player the player
+     * @return disguise player
+     */
 
     public static DisguisePlayer getDisguisePlayer(Player player) {
-        return getPlayerManager().getDisguisePlayer(player);
+        return DisguiseAPI.getPlayerManager().getDisguisePlayer(player);
     }
+
+    /**
+     * This method attempts to find the specified player in the
+     * cache of players.
+     * <p>
+     * This method can return null, if the specified id
+     * doesn't correspond to any player in the cache.
+     *
+     * @param id the player uuid
+     * @return disguise player
+     */
 
     public static DisguisePlayer getDisguisePlayer(UUID id) {
-        return getPlayerManager().getDisguisePlayer(id);
+        return DisguiseAPI.getPlayerManager().getDisguisePlayer(id);
     }
 
+    /**
+     * This method returns the factory for changing player names.
+     *
+     * @return the factory
+     */
+
+    @Deprecated
     public static NameFactory getNameFactory() {
-        return disguise.getNameFactory();
+        return DisguiseAPI.disguise.getNameFactory();
     }
 
     /**
@@ -128,6 +178,6 @@ public class DisguiseAPI {
      */
 
     public static Logger getLogger() {
-        return disguise.getSimpleLogger();
+        return DisguiseAPI.disguise.getSimpleLogger();
     }
 }

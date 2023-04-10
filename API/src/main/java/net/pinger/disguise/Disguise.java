@@ -37,9 +37,16 @@ public interface Disguise {
     DisguiseProvider createProvider(DisguiseRegistration registration);
 
     /**
-     * This method returns
+     * This method returns the registry system responsible for handling
+     * different Disguise plugins at once.
+     * <p>
+     * This is useful for keeping event handlers upon disguises, but
+     * also limiting when players can, and cannot disguise.
+     * <p>
+     * For additional information, you can read the documentation
+     * of {@link DisguiseRegistration}.
      *
-     * @return
+     * @return the registry system
      */
 
     RegistrySystem getRegistrySystem();
@@ -61,6 +68,12 @@ public interface Disguise {
      */
 
     NameFactory getNameFactory();
+
+    /**
+     * This method returns the player manager.
+     *
+     * @return the player manager
+     */
 
     PlayerManager getPlayerManager();
 
