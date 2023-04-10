@@ -76,6 +76,39 @@ public class DisguiseProviderImpl implements DisguiseProvider {
     }
 
     @Override
+    public void updatePlayer(DisguisePlayer player, String name, boolean silent) throws ValidationException {
+        PlayerUpdateInfo info = new PlayerUpdateInfo(player, name);
+
+        if (name == null) {
+            return;
+        }
+
+        // Check if this info is valid
+        // According to this registration
+        this.registration.validatePlayerInfo(info);
+        Player pl = player.toBukkit();
+
+        this.updateNickname(pl, name);
+        this.provider.sendServerPackets(pl);
+
+        // After sending updates
+        // We have to call the onUpdateInfo event
+        // And register this update in the register system
+        if (this.registration != RegistrySystem.DEFAULT_REGISTRATION) {
+            this.registry.updateRegistration(player, this.registration);
+        }
+
+        // Only if it's non-silent do we call this method
+        if (!silent) {
+            Bukkit.getScheduler().runTaskAsynchronously(this.disguise, () -> {
+                synchronized (this) {
+                    this.registration.onPlayerUpdateInfo(info);
+                }
+            });
+        }
+    }
+
+    @Override
     public void resetPlayer(DisguisePlayer player, boolean resetSkin, boolean resetName, boolean silent) {
         Skin skin = resetSkin ? player.getDefaultSkin() : null;
         String name = resetName ? player.getDefaultName() : null;
