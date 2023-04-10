@@ -5,16 +5,16 @@ import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_10_R1.*;
 import net.pinger.disguise.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
-import net.pinger.disguise.data.PlayerDataWrapper;
 import net.pinger.disguise.packet.PacketProvider;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_10_R1.CraftChunk;
+import net.pinger.disguise.player.update.PlayerUpdate;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 @PacketHandler(version = "1.10", compatibility = "1.10.2")
@@ -85,33 +85,48 @@ public class PacketProviderImpl implements PacketProvider {
     public void sendServerPackets(Player player) {
         // Get the entity player from the base player
         EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        World world = entityPlayer.getWorld();
 
         // Create the PacketPlayOutRespawn packet
         PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(
                 entityPlayer.dimension,
-                entityPlayer.getWorld().getDifficulty(),
-                entityPlayer.getWorld().worldData.getType(),
-                entityPlayer.playerInteractManager.getGameMode());
+                world.getDifficulty(),
+                world.worldData.getType(),
+                entityPlayer.playerInteractManager.getGameMode()
+        );
+
+        // Get the name and stuff
+        Location loc = player.getLocation();
+
+        // Send position
+        PacketPlayOutPosition pos = new PacketPlayOutPosition(
+                loc.getX(),
+                loc.getY(),
+                loc.getZ(),
+                loc.getYaw(),
+                loc.getPitch(),
+                new HashSet<>(),
+                0
+        );
+
+        PlayerUpdate update = this.createUpdate(player);
 
         // Send all the necessary packets
-        this.sendPacket(new PacketPlayOutEntityDestroy(entityPlayer.getId()));
-        this.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer));
+        this.sendPacket(player, new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer));
+        this.sendPacket(player, new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer));
 
-        // Create a data wrapper
-        PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
-        Chunk entity = ((CraftChunk) player.getLocation().getChunk()).getHandle();
+        // Send the respawn and pos packet
+        this.sendPacket(player, respawn);
+        this.sendPacket(player, pos);
+        this.sendUpdate(update);
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            this.sendPacket(player, respawn);
+        // Update scale
+        ((CraftPlayer) player).updateScaledHealth();
+        entityPlayer.updateAbilities();
+        entityPlayer.triggerHealthUpdate();
 
-            dataWrapper.applyProperties();
-            this.sendPacket(player, new PacketPlayOutMapChunk(entity, 20));
-
-            // Send the add packet
-            this.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer));
-
-            // Refresh the player
-            PacketProvider.refreshPlayer(player, plugin);
-        }, 1L);
+        // Send the refresh packet to other players
+        // Where they will be able to see the updated skin
+        PacketProvider.refreshPlayer(player, this.plugin);
     }
 }

@@ -2,16 +2,13 @@ package net.pinger.disguise.packet;
 
 import com.mojang.authlib.GameProfile;
 import net.pinger.disguise.Skin;
+import net.pinger.disguise.player.update.PlayerUpdate;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public interface PacketProvider {
 
@@ -86,6 +83,28 @@ public interface PacketProvider {
     void sendServerPackets(Player player);
 
     /**
+     * This method creates a new update for the specified player.
+     *
+     * @param player the player to update
+     * @return the update object
+     */
+
+    default PlayerUpdate createUpdate(Player player) {
+        return new PlayerUpdate(player);
+    }
+
+    /**
+     * This method sends an update to the specified
+     * player.
+     *
+     * @param update the update
+     */
+
+    default void sendUpdate(PlayerUpdate update) {
+        update.send();
+    }
+
+    /**
      * This method refreshes a player by hiding them and reshowing them
      * to players that have this player in sight.
      *
@@ -110,6 +129,10 @@ public interface PacketProvider {
         // Hide the player
         // To all other players
         for (Player other : Bukkit.getOnlinePlayers()) {
+            if (other.equals(player)) {
+                continue;
+            }
+
             if (version) {
                 other.hidePlayer(plugin, player);
             } else {
@@ -120,6 +143,10 @@ public interface PacketProvider {
         // Now loop once again
         // And show the player
         for (Player other : Bukkit.getOnlinePlayers()) {
+            if (other.equals(player)) {
+                continue;
+            }
+
             if (version) {
                 other.showPlayer(plugin, player);
             } else {
