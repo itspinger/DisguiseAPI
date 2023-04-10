@@ -164,7 +164,6 @@ public interface DisguiseProvider {
         this.updatePlayer(DisguiseAPI.getDisguisePlayer(player), skin, name, true);
     }
 
-
     /**
      * This method updates the player profile by changing the
      * skin and name of the player.
@@ -262,8 +261,44 @@ public interface DisguiseProvider {
      * @param name the name to set
      */
 
-    default void updatePlayer(DisguisePlayer player, String name) throws ValidationException {
-        this.updatePlayer(player, null, name);
+    void updatePlayer(DisguisePlayer player, String name, boolean silent) throws ValidationException;
+
+    /**
+     * This method updates the specified player by changing their name.
+     * <p>
+     * If the update of the player failed for any reason,
+     * this method will throw a {@link ValidationException}.
+     * <p>
+     * If you need to change the skin of the player as well,
+     * you can use the {@link #updatePlayer(DisguisePlayer, Skin, String)}
+     * method.
+     *
+     * @throws ValidationException if validating this update isn't correct
+     * @param player the player
+     * @param name the name to set
+     */
+
+    default void updatePlayer(DisguisePlayer player, String name) {
+        this.updatePlayer(player, name, false);
+    }
+
+    /**
+     * This method updates the specified player by changing their name.
+     * <p>
+     * If the update of the player failed for any reason,
+     * this method will throw a {@link ValidationException}.
+     * <p>
+     * If you need to change the skin of the player as well,
+     * you can use the {@link #updatePlayer(DisguisePlayer, Skin, String)}
+     * method.
+     *
+     * @throws ValidationException if validating this update isn't correct
+     * @param player the player
+     * @param name the name to set
+     */
+
+    default void updatePlayerSilently(DisguisePlayer player, String name) {
+        this.updatePlayer(player, name, true);
     }
 
     /**
@@ -282,7 +317,7 @@ public interface DisguiseProvider {
      */
 
     default void updatePlayer(Player player, String name) throws ValidationException {
-        this.updatePlayer(player, null, name);
+        this.updatePlayer(DisguiseAPI.getDisguisePlayer(player), name);
     }
 
     /**
