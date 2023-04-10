@@ -1,5 +1,5 @@
 <p align="center">
-	<img src = "https://img.shields.io/badge/Supports-1.8.8%20--%201.19.2-%3Cbrightgreen%3E">
+	<img src = "https://img.shields.io/badge/Supports-1.8.8%20--%201.19.4-%3Cbrightgreen%3E">
 	<img src = "https://img.shields.io/badge/-Library-blue">
 	<img src = "https://img.shields.io/badge/-Easy%20to%20use-orange">
 </p>
@@ -26,7 +26,7 @@ After the project has finished building, you may now use the project in your pro
 <dependency>
   <groupId>net.pinger.disguise</groupId>
   <artifactId>API</artifactId>
-  <version>1.1.3</version> <!-- At time of writing, 1.1.3 is the latest version. See the pom.xml for the latest version -->
+  <version>1.2.0</version> <!-- At time of writing, 1.2.0 is the latest version. See the pom.xml for the latest version -->
   <scope>provided</scope> <!-- No need for compiling it within the jar since it is already included within the plugin -->
 </dependency>
 ```
@@ -35,7 +35,7 @@ After the project has finished building, you may now use the project in your pro
 ```gradle
 dependencies {
     // No need for compiling it within the jar since it is already included within the plugin
-    compileOnly 'net.pinger.disguise:API:1.1.3'
+    compileOnly 'net.pinger.disguise:API:1.2.0'
 }
 ```
 
@@ -54,3 +54,4 @@ Down below plugins implementing this library will be mentioned, along with the d
 included in this list, write me a message on Pinger#5246 (Discord)
 
 - <a href = "https://www.spigotmc.org/resources/disguise.84079/">DisguisePlus</a>
+- <a href = "">Hynick</a>
