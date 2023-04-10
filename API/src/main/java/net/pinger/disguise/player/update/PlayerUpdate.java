@@ -1,24 +1,20 @@
-package net.pinger.disguise.data;
+package net.pinger.disguise.player.update;
 
-import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
-public class PlayerDataWrapper {
+public class PlayerUpdate {
 
     private final Player player;
     private final GameMode gameMode;
     private final boolean allowFlight;
     private final boolean flying;
     private final Location location;
-    private final double maxHealth;
-    private final double health;
     private final int level;
     private final float xp;
 
-    public PlayerDataWrapper(Player player) {
+    public PlayerUpdate(Player player) {
         this.player = player;
 
         // Update other fields
@@ -28,8 +24,6 @@ public class PlayerDataWrapper {
         this.location = player.getLocation();
         this.level = player.getLevel();
         this.xp = player.getExp();
-        this.maxHealth = MinecraftServer.atLeast("1.9") ? player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() : player.getMaxHealth();
-        this.health = player.getHealth();
     }
 
     /**
@@ -37,9 +31,10 @@ public class PlayerDataWrapper {
      * given player.
      */
 
-    public void applyProperties() {
-        if (this.player == null)
+    public void send() {
+        if (this.player == null) {
             return;
+        }
 
         // Update the properties here
         this.player.setGameMode(this.gameMode);
@@ -47,16 +42,7 @@ public class PlayerDataWrapper {
         this.player.setFlying(this.flying);
         this.player.teleport(this.location);
         this.player.updateInventory();
-        this.player.setHealth(this.health);
         this.player.setLevel(this.level);
         this.player.setExp(this.xp);
-
-        // Set max health here
-        if (MinecraftServer.atLeast("1.9")) {
-            this.player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(this.maxHealth);
-            return;
-        }
-
-        this.player.setMaxHealth(this.maxHealth);
     }
 }

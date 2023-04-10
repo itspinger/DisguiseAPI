@@ -3,17 +3,17 @@ package net.pinger.disguise.packet.v1_17;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientboundLevelChunkPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
-import net.minecraft.network.protocol.game.ClientboundRemoveEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
+import net.minecraft.network.protocol.game.*;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.pinger.disguise.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
-import net.pinger.disguise.data.PlayerDataWrapper;
+import net.pinger.disguise.player.update.PlayerUpdate;
 import net.pinger.disguise.packet.PacketProvider;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_17_R1.CraftChunk;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -21,6 +21,7 @@ import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 @PacketHandler(version = "1.17")
@@ -90,37 +91,54 @@ public class PacketProviderImpl implements PacketProvider {
     @Override
     public void sendServerPackets(Player player) {
         // Get the entity player from the base player
-        ServerPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+        ServerPlayer sp = ((CraftPlayer) player).getHandle();
+        ServerLevel level = sp.getLevel();
 
         // Create the PacketPlayOutRespawn packet
         ClientboundRespawnPacket respawn = new ClientboundRespawnPacket(
-                entityPlayer.getCommandSenderWorld().dimensionType(),
-                entityPlayer.getCommandSenderWorld().dimension(),
-                entityPlayer.getCommandSenderWorld().getLevelData().getZSpawn(),
-                entityPlayer.gameMode.getGameModeForPlayer(),
-                entityPlayer.gameMode.getPreviousGameModeForPlayer(),
-                false,
-                entityPlayer.getLevel().isFlat(),
-                true);
+                level.dimensionType(),
+                level.dimension(),
+                BiomeManager.obfuscateSeed(level.getSeed()),
+                sp.gameMode.getGameModeForPlayer(),
+                sp.gameMode.getPreviousGameModeForPlayer(),
+                level.isDebug(),
+                level.isFlat(),
+                true
+        );
 
-        this.sendPacket(new ClientboundRemoveEntityPacket(entityPlayer.getId()));
-        this.sendPacket(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, entityPlayer));
+        // Get the name and stuff
+        Location loc = player.getLocation();
 
-        // Create a data wrapper
-        PlayerDataWrapper dataWrapper = new PlayerDataWrapper(player);
-        LevelChunk entity = ((CraftChunk) player.getLocation().getChunk()).getHandle();
+        // Send position
+        ClientboundPlayerPositionPacket pos = new ClientboundPlayerPositionPacket(
+                loc.getX(),
+                loc.getY(),
+                loc.getZ(),
+                loc.getYaw(),
+                loc.getPitch(),
+                new HashSet<>(),
+                0,
+                false
+        );
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            this.sendPacket(player, respawn);
+        PlayerUpdate update = this.createUpdate(player);
 
-            dataWrapper.applyProperties();
-            this.sendPacket(player, new ClientboundLevelChunkPacket(entity));
+        // Send all the necessary packets
+        this.sendPacket(player, new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER, sp));
+        this.sendPacket(player, new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, sp));
 
-            // Send the add packet
-            this.sendPacket(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, entityPlayer));
+        // Send the respawn and pos packet
+        this.sendPacket(player, respawn);
+        this.sendPacket(player, pos);
+        this.sendUpdate(update);
 
-            // Refresh the player
-            PacketProvider.refreshPlayer(player, plugin);
-        }, 1L);
+        // Update scale
+        ((CraftPlayer) player).updateScaledHealth();
+        sp.onUpdateAbilities();
+        sp.resetSentInfo();
+
+        // Send the refresh packet to other players
+        // Where they will be able to see the updated skin
+        PacketProvider.refreshPlayer(player, this.plugin);
     }
 }
