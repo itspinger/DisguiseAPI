@@ -1,13 +1,10 @@
 package net.pinger.disguise.player;
 
-import com.mojang.authlib.GameProfile;
 import net.pinger.disguise.*;
-import net.pinger.disguise.exception.ValidationException;
 import net.pinger.disguise.packet.PacketProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
