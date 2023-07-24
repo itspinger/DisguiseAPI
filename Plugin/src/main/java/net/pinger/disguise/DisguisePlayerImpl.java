@@ -1,10 +1,8 @@
 package net.pinger.disguise;
 
-import net.pinger.disguise.exception.UserNotFoundException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class DisguisePlayerImpl implements DisguisePlayer {
@@ -31,8 +29,13 @@ public class DisguisePlayerImpl implements DisguisePlayer {
 
     @Override
     public Skin getCurrentSkin() {
-        Objects.requireNonNull(toBukkit(), "Player must be online");
-        return DisguiseAPI.getProvider().getProperty(toBukkit());
+        Player player = this.toBukkit();
+
+        if (player == null) {
+            return null;
+        }
+
+        return DisguiseAPI.getProvider().getProperty(player);
     }
 
     @Override

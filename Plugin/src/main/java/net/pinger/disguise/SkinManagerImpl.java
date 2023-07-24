@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class SkinManagerImpl implements SkinManager {
@@ -79,28 +80,29 @@ public class SkinManagerImpl implements SkinManager {
 
     @Override
     public Skin getFromMojang(String playerName) {
-       try {
-           // Create a request
-           HttpRequest request = new HttpGetRequest(HttpUtil.toMojangUrl(playerName));
-           HttpResponse response = request.connect();
+        try {
+            // Create a request
+            HttpRequest request = new HttpGetRequest(HttpUtil.toMojangUrl(playerName));
+            HttpResponse response = request.connect();
 
-           // If the response is null
-           // Then the player is invalid
-           if (response.getResponse() == null || response.getResponse().isEmpty()) {
-               throw new UserNotFoundException("Couldn't find this user.");
-           }
+            // If the response is null
+            // Then the player is invalid
+            String res = response.getResponse();
+            if (res == null || res.isEmpty()) {
+                throw new UserNotFoundException("Couldn't find this user.");
+            }
 
-           // Read as json
-           JsonObject object = DisguiseAPI.GSON.fromJson(response.getResponse(), JsonObject.class);
+            // Read as json
+            JsonObject object = DisguiseAPI.GSON.fromJson(res, JsonObject.class);
 
-           // This will never return null
-           // Since the UUID is valid
-           return getFromMojang(ConverterUtil.fromString(object.get("id").getAsString()));
-       } catch (IOException e) {
-           // If an exception is caught
-           // We just want to return null
-           return null;
-       }
+            // This will never return null
+            // Since the UUID is valid
+            return this.getFromMojang(ConverterUtil.fromString(object.get("id").getAsString()));
+        } catch (IOException e) {
+            // If an exception is caught
+            // We just want to return null
+            return null;
+        }
     }
 
     @Override

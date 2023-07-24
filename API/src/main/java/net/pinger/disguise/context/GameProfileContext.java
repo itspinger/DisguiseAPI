@@ -16,9 +16,9 @@ public class GameProfileContext {
      * @return the new game profile
      */
 
-    public static Object createProfile(Skin skin) {
+    public static GameProfile createProfile(Skin skin) {
         GameProfile profile = new GameProfile(UUID.randomUUID(), "Player");
-        profile.getProperties().put("textures", (Property) PropertyContext.createProperty(skin));
+        profile.getProperties().put("textures", PropertyContext.createProperty(skin));
 
         // Return the profile
         return profile;

@@ -1,12 +1,14 @@
 package net.pinger.disguise.annotation;
 
+import net.pinger.disguise.packet.PacketProvider;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This type is an annotation used for marking a {@link net.pinger.disguise.packet.PacketProvider} type which provides support
+ * This type is an annotation used for marking a {@link PacketProvider} type which provides support
  * for at least one minecraft version.
  *
  * @author Pinger

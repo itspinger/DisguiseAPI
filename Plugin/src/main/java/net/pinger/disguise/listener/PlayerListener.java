@@ -1,14 +1,9 @@
 package net.pinger.disguise.listener;
 
 import net.pinger.disguise.Disguise;
-import net.pinger.disguise.DisguisePlayer;
-import net.pinger.disguise.DisguisePlayerImpl;
-import net.pinger.disguise.DisguiseProviderImpl;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PlayerListener implements Listener {

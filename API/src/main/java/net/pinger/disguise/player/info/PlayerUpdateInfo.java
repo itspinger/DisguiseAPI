@@ -80,6 +80,17 @@ public class PlayerUpdateInfo {
     }
 
     @Nullable
+    public Skin getSkin() {
+        PlayerSkinUpdateAction skin = this.getSkinUpdate();
+
+        if (skin == null) {
+            return null;
+        }
+
+        return skin.get();
+    }
+
+    @Nullable
     public PlayerNameUpdateAction getNameUpdate() {
         PlayerUpdateAction<String> update = this.getUpdate(PlayerUpdateInfoAction.NICK);
 
@@ -89,6 +100,17 @@ public class PlayerUpdateInfo {
         }
 
         return (PlayerNameUpdateAction) update;
+    }
+
+    @Nullable
+    public String getName() {
+        PlayerNameUpdateAction name = this.getNameUpdate();
+
+        if (name == null) {
+            return null;
+        }
+
+        return name.get();
     }
 
     public boolean hasSkinUpdate() {

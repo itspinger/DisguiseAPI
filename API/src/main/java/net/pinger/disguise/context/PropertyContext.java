@@ -13,7 +13,7 @@ public class PropertyContext {
      * @return a new property object
      */
 
-    public static Object createProperty(Skin skin) {
+    public static Property createProperty(Skin skin) {
         return new Property("textures", skin.getValue(), skin.getSignature());
     }
 

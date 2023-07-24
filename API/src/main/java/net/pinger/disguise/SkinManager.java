@@ -58,7 +58,7 @@ public interface SkinManager {
      * <p>
      * Unlike {@link #getFromImage(String, Consumer)}, this method does not
      * run asynchronously.
-     *
+     * <p>
      * If the call to the REST API is successful, the response will look
      * like this:
      * <pre>
@@ -86,7 +86,7 @@ public interface SkinManager {
      * <p>
      * Unlike {@link #getFromImage(String, Consumer)}, this method does not
      * run asynchronously.
-     *
+     * <p>
      * If the call to the REST API is successful, the response will look
      * like this:
      * <pre>

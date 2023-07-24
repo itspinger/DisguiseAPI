@@ -9,6 +9,7 @@ import net.pinger.disguise.registration.RegistrySystem;
 import org.bukkit.entity.Player;
 import org.slf4j.Logger;
 
+import javax.annotation.CheckReturnValue;
 import java.util.UUID;
 
 public class DisguiseAPI {
@@ -27,6 +28,17 @@ public class DisguiseAPI {
 
     public static void setDisguise(Disguise disguise) {
         DisguiseAPI.disguise = disguise;
+    }
+
+    /**
+     * This method checks if this api is enabled.
+     *
+     * @return whether this api is enabled
+     */
+
+    @CheckReturnValue
+    public static boolean isEnabled() {
+        return DisguiseAPI.disguise.isEnabled();
     }
 
     /**
@@ -115,7 +127,7 @@ public class DisguiseAPI {
 
     @Deprecated
     public static PacketProvider getProvider() {
-        return DisguiseAPI.disguise.getPacketContext().getProvider();
+        return DisguiseAPI.disguise.getPacketProvider();
     }
 
     /**
@@ -157,17 +169,6 @@ public class DisguiseAPI {
 
     public static DisguisePlayer getDisguisePlayer(UUID id) {
         return DisguiseAPI.getPlayerManager().getDisguisePlayer(id);
-    }
-
-    /**
-     * This method returns the factory for changing player names.
-     *
-     * @return the factory
-     */
-
-    @Deprecated
-    public static NameFactory getNameFactory() {
-        return DisguiseAPI.disguise.getNameFactory();
     }
 
     /**

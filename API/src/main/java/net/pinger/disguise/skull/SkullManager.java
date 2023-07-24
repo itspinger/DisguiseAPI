@@ -47,10 +47,11 @@ public class SkullManager {
         SkullMeta meta = (SkullMeta) stack.getItemMeta();
 
         // Setting the owner
-        if (MinecraftServer.atLeast("1.12"))
+        if (MinecraftServer.atLeast("1.12")) {
             meta.setOwningPlayer(player);
-        else
+        } else {
             meta.setOwner(player.getName());
+        }
 
         stack.setItemMeta(meta);
         return stack;

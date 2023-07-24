@@ -1,6 +1,5 @@
 package net.pinger.disguise.packet.v1_15;
 
-import com.google.common.hash.Hashing;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_15_R1.*;
@@ -8,9 +7,7 @@ import net.pinger.disguise.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.player.update.PlayerUpdate;
 import net.pinger.disguise.packet.PacketProvider;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_15_R1.CraftChunk;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;

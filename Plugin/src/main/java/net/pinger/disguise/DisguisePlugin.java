@@ -1,8 +1,7 @@
 package net.pinger.disguise;
 
 import net.pinger.disguise.listener.PlayerListener;
-import net.pinger.disguise.packet.PacketContext;
-import net.pinger.disguise.packet.PacketContextImpl;
+import net.pinger.disguise.packet.PacketManagerImpl;
 import net.pinger.disguise.packet.PacketProvider;
 import net.pinger.disguise.player.PlayerManager;
 import net.pinger.disguise.player.PlayerManagerImpl;
@@ -10,21 +9,19 @@ import net.pinger.disguise.registration.DisguiseRegistration;
 import net.pinger.disguise.registration.RegistrySystem;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Set;
 
 public class DisguisePlugin extends JavaPlugin implements Disguise {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("DisguiseAPI");
 
-    private PacketContextImpl packetContext;
     private SkinManager skinManager;
     private PlayerManager playerManager;
     private PacketProvider provider;
-    private NameFactory nameFactory;
     private DisguiseProvider defaultProvider;
     private RegistrySystem registrySystem;
 
@@ -35,22 +32,30 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
 
         // Set the skin manager
         this.skinManager = new SkinManagerImpl(this);
-        this.packetContext = new PacketContextImpl(this);
-        this.nameFactory = new NameFactoryImpl(this);
+        PacketManagerImpl manager = new PacketManagerImpl(this);
 
-        // Get the number of providers
-        Set<Class<? extends PacketProvider>> providers = packetContext.getRegisteredProviders();
-        LOGGER.info(String.format("Loaded providers: %s", providers.size()));
+        LOGGER.info(String.format("Loaded providers: %s", manager.getProviderCount()));
         LOGGER.info(String.format("Current Server Version: %s", MinecraftServer.CURRENT));
-        LOGGER.info("Searching for a PacketHandler corresponding with this version...");
+        LOGGER.info("Searching for a provider supporting this version...");
 
         // Try to apply the provider
-        this.provider = this.packetContext.find();
+        this.provider = manager.find();
+
+        // If we didn't find the provider for this version
+        // Then we need to disable this plugin
+        // Other plugins should use DisguiseAPI#isEnabled to check
+        // Whether the plugins were loaded
         if (this.provider == null) {
             // Send info message
-            LOGGER.error("Failed to find a PacketHandler matching with this version.");
+            LOGGER.error("Failed to find a packet provider for this version!!!");
+            LOGGER.error("Failed to find a packet provider for this version!!!");
+            LOGGER.error("Failed to find a packet provider for this version!!!");
+
+            // Disable this plugin
+            this.getPluginLoader().disablePlugin(this);
+            return;
         } else {
-            LOGGER.info("Successfully found a PacketHandler matching this version.");
+            LOGGER.info("Successfully found a provider matching this version.");
         }
 
         this.registrySystem = new RegistrySystem();
@@ -61,12 +66,20 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
         new Metrics(this, 16508);
 
         // Register listeners
-        this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        PluginManager pm = this.getServer().getPluginManager();
+        pm.registerEvents(new PlayerListener(this), this);
     }
 
     @Override
     public void onDisable() {
-        // Disable
+        // If the provider for this version wasn't found
+        // Then this will return null
+        if (this.playerManager == null) {
+            return;
+        }
+
+        // Shutdown the manager
+        // In order to reset skins and names of all online player
         this.playerManager.shutdown();
     }
 
@@ -91,18 +104,8 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
     }
 
     @Override
-    public NameFactory getNameFactory() {
-        return this.nameFactory;
-    }
-
-    @Override
     public PlayerManager getPlayerManager() {
         return this.playerManager;
-    }
-
-    @Override
-    public PacketContext getPacketContext() {
-        return this.packetContext;
     }
 
     @Override
@@ -113,5 +116,10 @@ public class DisguisePlugin extends JavaPlugin implements Disguise {
     @Override
     public Logger getSimpleLogger() {
         return DisguisePlugin.LOGGER;
+    }
+
+    @Override
+    public Plugin getPlugin() {
+        return this;
     }
 }

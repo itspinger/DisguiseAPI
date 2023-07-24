@@ -2,7 +2,7 @@ package net.pinger.disguise.packet;
 
 import java.util.Set;
 
-public interface PacketContext {
+public interface PacketManager {
 
     /**
      * This method tries to find a {@link PacketProvider} amongst
@@ -28,7 +28,7 @@ public interface PacketContext {
      * <p>
      * If your plugin is depending on DisguiseAPI, it is important to check
      * whether this method returns null in the <b>onEnable</b> method.
-     *
+     * <p>
      * You may not need to store this inside a static field, since
      * it will not change once it has been set until the restart of the server.
      * <br>
@@ -60,4 +60,15 @@ public interface PacketContext {
      */
 
     Set<Class<? extends PacketProvider>> getRegisteredProviders();
+
+    /**
+     * This method returns the number of currently registered
+     * providers.
+     *
+     * @return the provider count
+     */
+
+    default int getProviderCount() {
+        return this.getRegisteredProviders().size();
+    }
 }

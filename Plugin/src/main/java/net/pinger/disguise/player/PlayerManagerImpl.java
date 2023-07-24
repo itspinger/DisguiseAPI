@@ -11,19 +11,17 @@ import java.util.UUID;
 
 public class PlayerManagerImpl implements PlayerManager {
 
-    private final DisguisePlugin disguise;
     private final Map<UUID, DisguisePlayer> players = new HashMap<>();
     private final PacketProvider provider;
 
     public PlayerManagerImpl(DisguisePlugin disguise) {
-        this.disguise = disguise;
         this.provider = disguise.getPacketProvider();
 
         // Cache all online players
         for (Player player : Bukkit.getOnlinePlayers()) {
             // First refresh the player skin
             // To other players
-            PacketProvider.refreshPlayer(player, this.disguise);
+            PacketProvider.refreshPlayer(player, disguise);
 
             // Create the player
             this.createPlayer(player);
@@ -44,7 +42,7 @@ public class PlayerManagerImpl implements PlayerManager {
     public void createPlayer(Player player) {
         UUID id = player.getUniqueId();
         String name = player.getName();
-        Skin skin = DisguiseAPI.getProvider().getProperty(player);
+        Skin skin = this.provider.getProperty(player);
 
         // Add to the player
         this.players.putIfAbsent(id, new DisguisePlayerImpl(id, skin, name));

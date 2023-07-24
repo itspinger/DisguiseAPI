@@ -68,9 +68,7 @@ public class DisguiseProviderImpl implements DisguiseProvider {
         // Only if it's non-silent do we call this method
         if (!silent) {
             Bukkit.getScheduler().runTaskAsynchronously(this.disguise, () -> {
-                synchronized (this) {
-                    this.registration.onPlayerUpdateInfo(info);
-                }
+                this.registration.onPlayerUpdateInfo(info);
             });
         }
     }
@@ -101,9 +99,7 @@ public class DisguiseProviderImpl implements DisguiseProvider {
         // Only if it's non-silent do we call this method
         if (!silent) {
             Bukkit.getScheduler().runTaskAsynchronously(this.disguise, () -> {
-                synchronized (this) {
-                    this.registration.onPlayerUpdateInfo(info);
-                }
+                this.registration.onPlayerUpdateInfo(info);
             });
         }
     }
@@ -141,9 +137,7 @@ public class DisguiseProviderImpl implements DisguiseProvider {
         // Only if it's non-silent do we call this method
         if (!silent) {
             Bukkit.getScheduler().runTaskAsynchronously(this.disguise, () -> {
-                synchronized (this) {
-                    this.registration.onPlayerResetInfo(info);
-                }
+                this.registration.onPlayerResetInfo(info);
             });
         }
     }

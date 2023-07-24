@@ -1,11 +1,13 @@
 package net.pinger.disguise;
 
-import net.pinger.disguise.packet.PacketContext;
 import net.pinger.disguise.packet.PacketProvider;
 import net.pinger.disguise.player.PlayerManager;
 import net.pinger.disguise.registration.DisguiseRegistration;
 import net.pinger.disguise.registration.RegistrySystem;
+import org.bukkit.plugin.Plugin;
 import org.slf4j.Logger;
+
+import javax.annotation.CheckReturnValue;
 
 public interface Disguise {
 
@@ -62,29 +64,12 @@ public interface Disguise {
     PacketProvider getPacketProvider();
 
     /**
-     * This method returns the factory for changing player names.
-     *
-     * @return the factory
-     */
-
-    NameFactory getNameFactory();
-
-    /**
      * This method returns the player manager.
      *
      * @return the player manager
      */
 
     PlayerManager getPlayerManager();
-
-    /**
-     * This method returns the packet context
-     * which holds all registered packet providers.
-     *
-     * @return the packet context
-     */
-
-    PacketContext getPacketContext();
 
     /**
      * This method returns the skin manager
@@ -102,5 +87,32 @@ public interface Disguise {
      */
 
     Logger getSimpleLogger();
+
+    /**
+     * This method returns a plugin instance, which handles everything
+     * within this api.
+     * <p>
+     * If we failed to find a provider for this plugin, the
+     * {@link #isEnabled()} method will return false, since the plugin
+     * will be disabled.
+     *
+     * @return the plugin
+     */
+
+    Plugin getPlugin();
+
+    /**
+     * This method checks whether this plugin is enabled.
+     * <p>
+     * A good reason to check the return value of this method is
+     * to see if the provider is found.
+     *
+     * @return whether the api is enabled
+     */
+
+    @CheckReturnValue
+    default boolean isEnabled() {
+        return this.getPlugin().isEnabled();
+    }
 
 }
