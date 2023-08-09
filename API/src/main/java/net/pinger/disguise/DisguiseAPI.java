@@ -2,10 +2,12 @@ package net.pinger.disguise;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.pinger.disguise.gson.GsonSkinAdapter;
 import net.pinger.disguise.packet.PacketProvider;
 import net.pinger.disguise.player.PlayerManager;
 import net.pinger.disguise.registration.DisguiseRegistration;
 import net.pinger.disguise.registration.RegistrySystem;
+import net.pinger.disguise.skin.Skin;
 import net.pinger.disguise.skin.SkinManager;
 import org.bukkit.entity.Player;
 import org.slf4j.Logger;
@@ -15,7 +17,12 @@ import java.util.UUID;
 
 public class DisguiseAPI {
 
-    public static final Gson GSON = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
+    public static final Gson GSON = new GsonBuilder()
+            .enableComplexMapKeySerialization()
+            .registerTypeAdapter(Skin.class, new GsonSkinAdapter())
+            .setPrettyPrinting()
+            .create();
+
     private static Disguise disguise;
 
     // Don't let anyone initialize this

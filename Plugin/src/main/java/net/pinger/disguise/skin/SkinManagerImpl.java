@@ -68,7 +68,7 @@ public class SkinManagerImpl implements SkinManager {
                     JsonObject textured = object.getAsJsonObject("data").getAsJsonObject("texture");
 
                     // Instantiate the skin and store this url
-                    Skin newSkin = new Skin(textured.get("value").getAsString(), textured.get("signature").getAsString());
+                    Skin newSkin = Skin.of(textured.get("value").getAsString(), textured.get("signature").getAsString());
                     this.skins.put(imageUrl, newSkin);
 
                     // Update the response consumer
@@ -128,7 +128,7 @@ public class SkinManagerImpl implements SkinManager {
                     .get(0)
                     .getAsJsonObject();
 
-            return new Skin(properties.get("value").getAsString(), properties.get("signature").getAsString());
+            return Skin.of(properties.get("value").getAsString(), properties.get("signature").getAsString());
         } catch (IOException e) {
             // If an exception is caught
             // We just want to return null
