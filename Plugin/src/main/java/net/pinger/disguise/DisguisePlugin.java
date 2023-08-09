@@ -8,6 +8,8 @@ import net.pinger.disguise.player.PlayerManagerImpl;
 import net.pinger.disguise.registration.DisguiseRegistration;
 import net.pinger.disguise.registration.RegistrySystem;
 import net.pinger.disguise.server.MinecraftServer;
+import net.pinger.disguise.skin.SkinManager;
+import net.pinger.disguise.skin.SkinManagerImpl;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;

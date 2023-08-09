@@ -1,8 +1,7 @@
 package net.pinger.disguise.context;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
-import net.pinger.disguise.Skin;
+import net.pinger.disguise.skin.Skin;
 
 import java.util.UUID;
 

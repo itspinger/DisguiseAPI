@@ -4,7 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import net.pinger.disguise.DisguiseAPI;
-import net.pinger.disguise.Skin;
+import net.pinger.disguise.skin.Skin;
 import net.pinger.disguise.context.GameProfileContext;
 import net.pinger.disguise.item.ItemBuilder;
 import net.pinger.disguise.item.XMaterial;

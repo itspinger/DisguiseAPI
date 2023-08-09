@@ -1,7 +1,7 @@
 package net.pinger.disguise.player.info;
 
 import net.pinger.disguise.DisguisePlayer;
-import net.pinger.disguise.Skin;
+import net.pinger.disguise.skin.Skin;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

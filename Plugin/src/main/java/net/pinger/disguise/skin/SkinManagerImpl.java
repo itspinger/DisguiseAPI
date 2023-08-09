@@ -1,12 +1,16 @@
-package net.pinger.disguise;
+package net.pinger.disguise.skin;
 
 import com.google.gson.JsonObject;
+import net.pinger.disguise.DisguiseAPI;
+import net.pinger.disguise.DisguisePlugin;
 import net.pinger.disguise.exception.UserNotFoundException;
 import net.pinger.disguise.http.HttpRequest;
 import net.pinger.disguise.http.HttpResponse;
 import net.pinger.disguise.http.request.HttpGetRequest;
 import net.pinger.disguise.http.request.HttpPostRequest;
 import net.pinger.disguise.response.Response;
+import net.pinger.disguise.skin.Skin;
+import net.pinger.disguise.skin.SkinManager;
 import net.pinger.disguise.util.ConverterUtil;
 import net.pinger.disguise.util.HttpUtil;
 import org.bukkit.Bukkit;
@@ -15,7 +19,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class SkinManagerImpl implements SkinManager {

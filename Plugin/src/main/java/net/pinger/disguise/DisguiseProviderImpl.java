@@ -6,6 +6,7 @@ import net.pinger.disguise.packet.PacketProvider;
 import net.pinger.disguise.player.info.PlayerUpdateInfo;
 import net.pinger.disguise.registration.DisguiseRegistration;
 import net.pinger.disguise.registration.RegistrySystem;
+import net.pinger.disguise.skin.Skin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

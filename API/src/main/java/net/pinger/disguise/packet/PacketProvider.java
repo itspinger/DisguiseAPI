@@ -1,7 +1,7 @@
 package net.pinger.disguise.packet;
 
 import com.mojang.authlib.GameProfile;
-import net.pinger.disguise.Skin;
+import net.pinger.disguise.skin.Skin;
 import net.pinger.disguise.player.update.PlayerUpdate;
 import net.pinger.disguise.server.MinecraftServer;
 import org.bukkit.Bukkit;

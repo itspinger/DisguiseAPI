@@ -2,6 +2,7 @@ package net.pinger.disguise.player;
 
 import net.pinger.disguise.*;
 import net.pinger.disguise.packet.PacketProvider;
+import net.pinger.disguise.skin.Skin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

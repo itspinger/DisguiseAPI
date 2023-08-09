@@ -9,7 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.biome.BiomeManager;
-import net.pinger.disguise.Skin;
+import net.pinger.disguise.skin.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.player.update.PlayerUpdate;
 import net.pinger.disguise.packet.PacketProvider;

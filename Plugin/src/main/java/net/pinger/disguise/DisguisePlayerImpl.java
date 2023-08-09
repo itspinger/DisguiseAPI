@@ -1,5 +1,6 @@
 package net.pinger.disguise;
 
+import net.pinger.disguise.skin.Skin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

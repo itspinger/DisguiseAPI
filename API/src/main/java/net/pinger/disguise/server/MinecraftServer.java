@@ -44,6 +44,7 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
      */
 
     public static MinecraftServer fromRaw(String rawVersion) {
+        // Check if it's WindSpigot
         Matcher matcher = VERSION_PATTERN.matcher(rawVersion);
 
         // Check if the version pattern
@@ -65,7 +66,7 @@ public final class MinecraftServer implements Comparable<MinecraftServer> {
      */
 
     public static MinecraftServer fromRaw() {
-        return fromRaw(Bukkit.getVersion());
+        return fromRaw(Bukkit.getBukkitVersion());
     }
 
     /**

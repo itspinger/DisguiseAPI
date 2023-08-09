@@ -1,7 +1,8 @@
-package net.pinger.disguise;
+package net.pinger.disguise.skin;
 
 import net.pinger.disguise.exception.UserNotFoundException;
 import net.pinger.disguise.response.Response;
+import net.pinger.disguise.skin.Skin;
 
 import java.util.UUID;
 import java.util.function.Consumer;

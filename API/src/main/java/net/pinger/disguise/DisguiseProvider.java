@@ -3,6 +3,7 @@ package net.pinger.disguise;
 import net.pinger.disguise.exception.ValidationException;
 import net.pinger.disguise.player.info.PlayerUpdateInfo;
 import net.pinger.disguise.registration.DisguiseRegistration;
+import net.pinger.disguise.skin.Skin;
 import org.bukkit.entity.Player;
 
 public interface DisguiseProvider {

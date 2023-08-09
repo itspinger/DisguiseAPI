@@ -3,7 +3,7 @@ package net.pinger.disguise.packet.v1_16_4;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.server.v1_16_R3.*;
-import net.pinger.disguise.Skin;
+import net.pinger.disguise.skin.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.player.update.PlayerUpdate;
 import net.pinger.disguise.packet.PacketProvider;

@@ -1,6 +1,6 @@
 package net.pinger.disguise.player.info;
 
-import net.pinger.disguise.Skin;
+import net.pinger.disguise.skin.Skin;
 
 public class PlayerSkinUpdateAction extends PlayerUpdateAction<Skin> {
 

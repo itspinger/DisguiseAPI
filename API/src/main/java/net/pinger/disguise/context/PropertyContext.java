@@ -1,7 +1,7 @@
 package net.pinger.disguise.context;
 
 import com.mojang.authlib.properties.Property;
-import net.pinger.disguise.Skin;
+import net.pinger.disguise.skin.Skin;
 
 public class PropertyContext {
 

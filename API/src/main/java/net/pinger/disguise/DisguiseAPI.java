@@ -6,6 +6,7 @@ import net.pinger.disguise.packet.PacketProvider;
 import net.pinger.disguise.player.PlayerManager;
 import net.pinger.disguise.registration.DisguiseRegistration;
 import net.pinger.disguise.registration.RegistrySystem;
+import net.pinger.disguise.skin.SkinManager;
 import org.bukkit.entity.Player;
 import org.slf4j.Logger;
 
