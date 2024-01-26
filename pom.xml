@@ -37,6 +37,8 @@
         <module>API</module>
         <module>Plugin</module>
         <module>v1.20</module>
+        <module>v1.20.2</module>
+        <module>v1.20.3</module>
     </modules>
 
     <repositories>
