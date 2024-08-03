@@ -1,6 +1,7 @@
 package net.pinger.disguise.skin;
 
 import com.google.gson.JsonObject;
+import java.nio.charset.StandardCharsets;
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.context.PropertyContext;
 import net.pinger.disguise.item.ItemBuilder;
@@ -29,6 +30,8 @@ public class Skin {
     private final String signature;
     private final SkinModel model;
     private final String profile;
+
+    private transient String url;
 
     private final transient ItemStack skull;
 
@@ -75,6 +78,23 @@ public class Skin {
         return new Skin(value, signature, model, profileName);
     }
 
+    public String getUrl() {
+        if (this.url == null) {
+            this.url = fetchSkinUrl();
+        }
+
+        return this.url;
+    }
+
+    private String fetchSkinUrl() {
+        String base64 = new String(Base64.getDecoder().decode(value));
+        JsonObject base = DisguiseAPI.GSON.fromJson(base64, JsonObject.class);
+
+        // First we will get the SkinModel
+        JsonObject skin = base.getAsJsonObject("textures").getAsJsonObject("SKIN");
+        return skin.get("url").getAsString();
+    }
+
     /**
      * This method returns the encoded
      * value of this skin.
@@ -84,6 +104,10 @@ public class Skin {
 
     public String getValue() {
         return this.value;
+    }
+
+    public String getDecodedValue() {
+        return new String(Base64.getDecoder().decode(this.value), StandardCharsets.UTF_8);
     }
 
     /**

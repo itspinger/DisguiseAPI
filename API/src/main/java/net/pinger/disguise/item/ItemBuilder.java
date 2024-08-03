@@ -1,13 +1,18 @@
 package net.pinger.disguise.item;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import java.util.*;
 
 /**
  * This class is a utility class mainly used for easier
@@ -24,8 +29,8 @@ public class ItemBuilder {
 
     private String displayName;
     private List<String> lore;
-    private Map<Enchantment, Integer> enchantments;
-    private List<ItemFlag> itemFlags;
+    private final Map<Enchantment, Integer> enchantments;
+    private final List<ItemFlag> itemFlags;
 
     /**
      * This is the {@link ItemStack} we're performing the changes to.
@@ -198,7 +203,7 @@ public class ItemBuilder {
      */
 
     public ItemBuilder flag() {
-        for (ItemFlag flag : ItemFlag.values()) {
+        for (final ItemFlag flag : ItemFlag.values()) {
             this.flag(flag);
         }
 
@@ -238,36 +243,32 @@ public class ItemBuilder {
      */
 
     public ItemStack build() {
-        ItemMeta meta = this.item.getItemMeta();
-
-        // Check if the item meta is null
-        // This will only happen if the Material#getType is Material.AIR
+        final ItemMeta meta = this.item.getItemMeta();
         if (meta == null) {
             return this.item;
         }
 
-        // Set the display name of the item
-        // If it isn't null
         if (this.displayName != null) {
-            meta.setDisplayName(this.displayName);
+            meta.setDisplayName(this.color(this.displayName));
         }
 
-        // Set the lore of the item
-        // If it isn't null or empty
-        // Developers mostly use this for description
-        // Of the item
         if (this.lore != null && !this.lore.isEmpty()) {
-            meta.setLore(this.lore);
+            final List<String> lore = this.lore.stream().map(this::color).collect(Collectors.toList());
+            meta.setLore(lore);
+        }
+
+        for (final Map.Entry<Enchantment, Integer> entry : this.enchantments.entrySet()) {
+            meta.addEnchant(entry.getKey(), entry.getValue(), true);
         }
 
         // Add item flags to this item
         meta.addItemFlags(this.itemFlags.toArray(new ItemFlag[0]));
-
-        // Add all needed enchantments
-        // We prefer to use unsafeEnchantments
-        this.item.addUnsafeEnchantments(this.enchantments);
         this.item.setItemMeta(meta);
         return this.item;
+    }
+
+    private String color(String toColor) {
+        return ChatColor.translateAlternateColorCodes('&', toColor);
     }
 
 }

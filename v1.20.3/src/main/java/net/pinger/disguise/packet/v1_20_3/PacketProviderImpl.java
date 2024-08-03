@@ -2,29 +2,25 @@ package net.pinger.disguise.packet.v1_20_3;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.protocol.game.CommonPlayerSpawnInfo;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.biome.BiomeManager;
-import net.pinger.disguise.skin.Skin;
+import net.minecraft.server.players.PlayerList;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.packet.PacketProvider;
-import net.pinger.disguise.player.update.PlayerUpdate;
-import org.bukkit.Location;
+import net.pinger.disguise.skin.Skin;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nonnull;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
 
 @PacketHandler(version = "1.20.3", compatibility = "1.20.4")
 public class PacketProviderImpl implements PacketProvider {
@@ -50,7 +46,7 @@ public class PacketProviderImpl implements PacketProvider {
             return null;
         }
 
-        Optional<Property> any = textures.stream().filter(property -> property.value() != null).findAny();
+        Optional<Property> any = textures.stream().findFirst();
         return any.map(property -> new Skin(property.value(), property.signature())).orElse(null);
     }
 
@@ -96,51 +92,33 @@ public class PacketProviderImpl implements PacketProvider {
         ServerPlayer sp = ((CraftPlayer) player).getHandle();
         ServerLevel level = sp.serverLevel();
 
-        CommonPlayerSpawnInfo spawnInfo = new CommonPlayerSpawnInfo(
-            level.dimensionTypeId(),
-            level.dimension(),
-            BiomeManager.obfuscateSeed(level.getSeed()),
-            sp.gameMode.getGameModeForPlayer(),
-            sp.gameMode.getPreviousGameModeForPlayer(),
-            level.isDebug(),
-            level.isFlat(),
-            sp.getLastDeathLocation(),
-            sp.getPortalCooldown()
-        );
-
-        // Create the PacketPlayOutRespawn packet
-        ClientboundRespawnPacket respawn = new ClientboundRespawnPacket(spawnInfo, (byte) 3);
-
-        // Get the name and stuff
-        Location l = player.getLocation();
-
-        // Send position
-        ClientboundPlayerPositionPacket pos = new ClientboundPlayerPositionPacket(
-            l.getX(),
-            l.getY(),
-            l.getZ(),
-            l.getYaw(),
-            l.getPitch(),
-            new HashSet<>(),
-            0
-        );
-
-        PlayerUpdate update = this.createUpdate(player);
+        CommonPlayerSpawnInfo spawnInfo = sp.createCommonSpawnInfo(level);
+        ClientboundRespawnPacket respawn = new ClientboundRespawnPacket(spawnInfo, ClientboundRespawnPacket.KEEP_ALL_DATA);
 
         // Remove the player from the list
-        this.sendPacket(player, new ClientboundPlayerInfoRemovePacket(Collections.singletonList(sp.getUUID())));
+        this.sendPacket(player, new ClientboundPlayerInfoRemovePacket(Collections.singletonList(player.getUniqueId())));
         this.sendPacket(player, ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(Collections.singletonList(sp)));
 
         // Send the respawn packet to the player
         // With the respawn packet, the player gets to see their own skin
         this.sendPacket(player, respawn);
-        this.sendPacket(player, pos);
-        this.sendUpdate(update);
 
         // Update scale
-        ((CraftPlayer) player).updateScaledHealth();
         sp.onUpdateAbilities();
+
+        sp.connection.teleport(player.getLocation());
+
+        // Send health, food, experience (food is sent together with health)
         sp.resetSentInfo();
+
+        if (this.plugin.isEnabled()) {
+            Bukkit.getScheduler().runTask(this.plugin, () -> {
+                PlayerList playerList = sp.server.getPlayerList();
+                playerList.sendPlayerPermissionLevel(sp);
+                playerList.sendLevelInfo(sp, level);
+                playerList.sendAllPlayerInfo(sp);
+            });
+        }
 
         // Send the refresh packet to other players
         // Where they will be able to see the updated skin

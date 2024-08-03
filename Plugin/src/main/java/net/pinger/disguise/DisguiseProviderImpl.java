@@ -68,7 +68,7 @@ public class DisguiseProviderImpl implements DisguiseProvider {
 
         // Only if it's non-silent do we call this method
         if (!silent) {
-            Bukkit.getScheduler().runTaskAsynchronously(this.disguise, () -> {
+            Bukkit.getScheduler().runTask(this.disguise, () -> {
                 this.registration.onPlayerUpdateInfo(info);
             });
         }

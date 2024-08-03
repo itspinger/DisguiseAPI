@@ -1,36 +1,29 @@
-package net.pinger.disguise.packet.v1_20_2;
+package net.pinger.disguise.packet.v1_20_6;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.protocol.game.CommonPlayerSpawnInfo;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
-import net.minecraft.world.level.biome.BiomeManager;
-import net.pinger.disguise.skin.Skin;
 import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.packet.PacketProvider;
-import net.pinger.disguise.player.update.PlayerUpdate;
+import net.pinger.disguise.skin.Skin;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R4.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nonnull;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-
-@PacketHandler(version = "1.20.2")
+@PacketHandler(version = "1.20.6")
 public class PacketProviderImpl implements PacketProvider {
-
     private final Plugin plugin;
 
     public PacketProviderImpl(Plugin plugin) {
@@ -52,7 +45,7 @@ public class PacketProviderImpl implements PacketProvider {
             return null;
         }
 
-        Optional<Property> any = textures.stream().filter(property -> property.value() != null).findAny();
+        Optional<Property> any = textures.stream().findFirst();
         return any.map(property -> new Skin(property.value(), property.signature())).orElse(null);
     }
 

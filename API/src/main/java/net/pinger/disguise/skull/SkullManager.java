@@ -3,6 +3,8 @@ package net.pinger.disguise.skull;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import java.net.MalformedURLException;
+import java.net.URL;
 import net.pinger.disguise.DisguiseAPI;
 import net.pinger.disguise.skin.Skin;
 import net.pinger.disguise.context.GameProfileContext;
@@ -19,6 +21,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
 public class SkullManager {
 
@@ -62,6 +66,11 @@ public class SkullManager {
     }
 
     public static void mutateItemMeta(SkullMeta meta, Skin skin) {
+        if (MinecraftServer.atLeast("1.20.2")) {
+            createProfile(meta, skin);
+            return;
+        }
+
         try {
             if (metaSetProfileMethod == null) {
                 metaSetProfileMethod = meta.getClass().getDeclaredMethod("setProfile");
@@ -83,5 +92,18 @@ public class SkullManager {
                 DisguiseAPI.getLogger().error("Failed to mutate the given meta object.", ex);
             }
         }
+    }
+
+    private static void createProfile(SkullMeta meta, Skin skin) {
+        final PlayerProfile profile = Bukkit.createPlayerProfile(UUID.randomUUID(), "DisguiseAPI");
+        final PlayerTextures textures = profile.getTextures();
+
+        try {
+            textures.setSkin(new URL(skin.getUrl()));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+
+        meta.setOwnerProfile(profile);
     }
 }
