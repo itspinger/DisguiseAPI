@@ -1,4 +1,4 @@
-package net.pinger.disguise.packet.v1_21;
+package net.pinger.disguise.packet.v1_21_3;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -18,11 +18,11 @@ import net.pinger.disguise.annotation.PacketHandler;
 import net.pinger.disguise.packet.PacketProvider;
 import net.pinger.disguise.skin.Skin;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_21_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-@PacketHandler(version = "1.21", compatibility = {"1.21.1", "1.21.2"})
+@PacketHandler(version = "1.23")
 public class PacketProviderImpl implements PacketProvider {
     private final Plugin plugin;
 

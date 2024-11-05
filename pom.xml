@@ -7,7 +7,7 @@
     <groupId>net.pinger.disguise</groupId>
     <artifactId>DisguiseAPI</artifactId>
     <packaging>pom</packaging>
-    <version>1.3.6</version>
+    <version>1.4.0</version>
 
     <properties>
         <java.version>8</java.version>
@@ -41,6 +41,7 @@
         <module>v1.20.3</module>
       <module>v1.20.6</module>
       <module>v1.21</module>
+        <module>v1.21.3</module>
     </modules>
 
     <repositories>
