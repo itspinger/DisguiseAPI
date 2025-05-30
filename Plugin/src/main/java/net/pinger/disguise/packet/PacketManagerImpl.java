@@ -48,7 +48,8 @@ public class PacketManagerImpl implements PacketManager {
             net.pinger.disguise.packet.v1_20_3.PacketProviderImpl.class, // 1.20.3
             net.pinger.disguise.packet.v1_20_6.PacketProviderImpl.class, // 1.20.6
             net.pinger.disguise.packet.v1_21.PacketProviderImpl.class, // 1.21
-            net.pinger.disguise.packet.v1_21_3.PacketProviderImpl.class // 1.21.3
+            net.pinger.disguise.packet.v1_21_3.PacketProviderImpl.class, // 1.21.3
+            net.pinger.disguise.packet.v1_21_4.PacketProviderImpl.class // 1.21.4
         ));
     }
 
