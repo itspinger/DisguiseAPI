@@ -33,7 +33,11 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SpawnEggMeta;
-import org.bukkit.potion.Potion;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -1449,6 +1453,44 @@ public enum XMaterial {
     ZOMBIE_WALL_HEAD(2, "SKULL", "SKULL_ITEM"),
     ZOMBIFIED_PIGLIN_SPAWN_EGG(57, "MONSTER_EGG", "ZOMBIE_PIGMAN_SPAWN_EGG");
 
+    /**
+     * Detects the type of a potion (normal or splash) in a version-safe way.
+     *
+     * In legacy versions like 1.8.9, Bukkit used the `Potion` class to extract potion data from an ItemStack.
+     * That class was removed in 1.9+, and replaced by modern Material types (POTION, SPLASH_POTION, etc.).
+     *
+     * This method uses reflection to safely support both old and new versions of the Bukkit API without crashing.
+     *
+     * Why this exists:
+     * - Supports backwards compatibility with 1.8.x servers.
+     * - Avoids compile-time errors from missing classes (`Potion`) in modern versions.
+     * - Maintains plugin compatibility from 1.8 to 1.21+.
+     *
+     * If you're using this in a plugin intended for multiple Minecraft versions, do not remove this logic
+     * unless you're dropping support for 1.8.x completely.
+     *
+     * Note that the originial code does NOT have this, this is from the fork.
+     * 
+     * @param item The potion item to analyze.
+     * @return Material.POTION or Material.SPLASH_POTION based on the item and server version.
+     */
+    public static Material detectPotionType(ItemStack item) {
+        Material type = item.getType();
+
+        if (type.name().endsWith("POTION")) {
+            return type == Material.SPLASH_POTION ? Material.SPLASH_POTION : Material.POTION;
+        }
+
+        // Fallback to legacy logic for 1.8.x
+        try {
+            Class<?> potionClass = Class.forName("org.bukkit.potion.Potion");
+            Object potion = potionClass.getMethod("fromItemStack", ItemStack.class).invoke(null, item);
+            boolean isSplash = (boolean) potionClass.getMethod("isSplash").invoke(potion);
+            return isSplash ? Material.valueOf("SPLASH_POTION") : Material.valueOf("POTION");
+        } catch (Exception e) {
+            return Material.POTION;
+        }
+    }
 
     /**
      * Cached array of {@link XMaterial#values()} to avoid allocating memory for
@@ -1754,10 +1796,9 @@ public enum XMaterial {
         }
 
         // Potions used the items data value to store
-        // information about the type of potion in 1.8
-        if (!supports(9) && material.endsWith("ION")) {
+        if (material.endsWith("ION")) {
             // There's also 16000+ data value technique, but this is more reliable.
-            return Potion.fromItemStack(item).isSplash() ? SPLASH_POTION : POTION;
+            return XMaterial.valueOf(detectPotionType(item).name());
         }
 
         // Refer to the enum for info.

@@ -320,5 +320,37 @@
             <version>1.4.0</version>
             <scope>compile</scope>
         </dependency>
+
+         <!-- 1.21.4 Provider -->
+        <dependency>
+            <groupId>net.pinger.disguise</groupId>
+            <artifactId>v1.21.4</artifactId>
+            <version>1.4.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- 1.21.5 Provider -->
+        <dependency>
+            <groupId>net.pinger.disguise</groupId>
+            <artifactId>v1.21.5</artifactId>
+            <version>1.4.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- 1.21.6 Provider -->
+        <dependency>
+            <groupId>net.pinger.disguise</groupId>
+            <artifactId>v1.21.6</artifactId>
+            <version>1.4.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- 1.21.7 Provider -->
+        <dependency>
+            <groupId>net.pinger.disguise</groupId>
+            <artifactId>v1.21.7</artifactId>
+            <version>1.4.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

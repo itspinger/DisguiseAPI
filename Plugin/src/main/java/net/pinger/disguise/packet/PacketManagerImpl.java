@@ -48,7 +48,11 @@ public class PacketManagerImpl implements PacketManager {
             net.pinger.disguise.packet.v1_20_3.PacketProviderImpl.class, // 1.20.3
             net.pinger.disguise.packet.v1_20_6.PacketProviderImpl.class, // 1.20.6
             net.pinger.disguise.packet.v1_21.PacketProviderImpl.class, // 1.21
-            net.pinger.disguise.packet.v1_21_3.PacketProviderImpl.class // 1.21.3
+            net.pinger.disguise.packet.v1_21_3.PacketProviderImpl.class, // 1.21.3
+            net.pinger.disguise.packet.v1_21_4.PacketProviderImpl.class, // 1.21.4
+            net.pinger.disguise.packet.v1_21_5.PacketProviderImpl.class, // 1.21.5
+            net.pinger.disguise.packet.v1_21_6.PacketProviderImpl.class, // 1.21.6
+            net.pinger.disguise.packet.v1_21_7.PacketProviderImpl.class // 1.21.7
         ));
     }
 
@@ -106,3 +110,4 @@ public class PacketManagerImpl implements PacketManager {
         return Collections.unmodifiableSet(this.registeredProviders);
     }
 }
+
